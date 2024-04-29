@@ -39,8 +39,33 @@ module.exports = {
                 const embed = new EmbedBuilder()
                 .setColor('Blurple')
                 .setTitle(`✨ Create a ticket!`)
-                .setDescription(message + ' some emoji')
+                .setDescription(message + ' 🎫')
                 .setFooter({ text: `${interaction.guild.name}`, iconURL: `${interaction.guild.iconURL()}`});
+
+                await interaction.reply({ content: `🌎 I have sent your ticket below.`, ephemeral: true});
+                await interaction.channel.send({ embeds: [embed], components: [select] });
+
+            break;
+            case 'remove':
+                if (!data) return await interaction.reply({ content: `⚠️ Looks like you don't already have a ticket system set`, ephemeral: true})
+                else {
+                    await ticket.deleteOne({ Guild: interaction.guild.id});
+                    await interaction.reply({ content: `🌎 I have deleted your ticket category.`, ephemeral: true});
+                }
+
+            break;
+            case 'setup':
+                if (data) return await interaction.reply({ content: `⚠️ Looks like you already have a ticket category set to <#${data.Category}>`, ephemeral: true});
+                else {
+                    const category = options.getChannel('category');
+                    await ticket.create({
+                        Guild: interaction.guild.id,
+                        Category: category.id
+                    })
+
+                    await interaction.reply({ content: `🌎 I have set the category to **${cateogry}**! Use /ticket send to send a ticket create message`, ephemeral: true });
+                }
+
         }
     }
 }

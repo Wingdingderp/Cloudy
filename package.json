@@ -1,5 +1,22 @@
 {
   "devDependencies": {
     "@types/node": "^20.12.7"
-  }
+  },
+  "dependencies": {
+    "@discordjs/builders": "^1.7.0",
+    "discord-html-transcripts": "^3.2.0",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "zod": "^3.23.4"
+  },
+  "name": "cloudy",
+  "description": "The Cloudy Discord Bot for the SafeCloud Discord Server!\r [safecloud.quest/discord](url)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
