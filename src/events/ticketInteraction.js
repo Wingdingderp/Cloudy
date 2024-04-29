@@ -4,7 +4,7 @@ const { createTranscript } = require('discord-html-transcripts');
 
 module.exports = {
     name: 'interactionCreate',
-    async async (interaction, client) {
+    async execute(interaction, client) {
 
         if (interaction.customId == 'ticketCreateSelect') {
             const modal = new ModalBuilder()
@@ -18,7 +18,7 @@ module.exports = {
             .setLabel('Why are you creating this ticket?')
             .setStyle(TextInputStyle.Paragraph);
 
-            const info = new TextInputBuilder
+            const info = new TextInputBuilder()
             .setCustomId('infoTicket')
             .setRequired(false)
             .setPlaceholder('Feel free to leave this blank')
@@ -30,21 +30,21 @@ module.exports = {
 
             modal.addComponents(one, two);
             await interaction.showModal(modal);
-        }   else if (interaction.customId == 'ticketModal') {
+        } else if (interaction.customId == 'ticketModal') {
             const user = interaction.user;
             const data = await ticket.findOne({ Guild: interaction.guild.id});
-            if (!data) return await interaction.reply({ content: `Sorry! Looks like you found this message but the ticket system is not yet setup here.`, ephemeral: true});
+            if (!data) return await interaction.reply({ content: `Sorry! Looks like you found this message but the ticket system is not yet setup here.`, ephemeral: true });
             else {
                 const why = interaction.fields.getTextInputValue('whyTicket');
-                const info = interaction.fields.getTextInputValue('infoTicket');
+                const info = interaction.fields.getTextInputValue('infoTicket');     
                 const category = await interaction.guild.channels.cache.get(data.Category);
 
-                const channel = await interaction.guild.channels.create({
+                const channel = await interaction.guild.channels.create({ 
                     name: `ticket-${user.id}`,
                     type: ChannelType.GuildText,
                     topic: `Ticket user: ${user.username}; Ticket reason: ${why}`,
                     parent: category,
-                    PermissionOverwrites: [
+                    permissionOverwrites: [
                         {
                             id: interaction.guild.id,
                             deny: [PermissionsBitField.Flags.ViewChannel]
@@ -76,53 +76,49 @@ module.exports = {
                 );
 
                 await channel.send({ embeds: [embed], components: [button] });
-                await interaction.reply({ content: `✨ Your ticket has been opened in ${channel}`, ephemeral: true});
-            }
+                await interaction.reply({ content: `✨ Your ticket has been opened in ${channel}`, ephemeral: true });
+            } 
         } else if (interaction.customId == 'closeTicket') {
-                const closeModal = new ModalBuilder()
-                .setTitle(`Ticket Closing`)
-                .setCustomId('closeTicketModal')
+            const closeModal = new ModalBuilder()
+            .setTitle(`Ticket Closing`)
+            .setCustomId('closeTicketModal')
 
-                const reason = new TextInputBuilder()
-                .setCustomId('closeReasonTicket')
-                .setRequired(true)
-                .setPlaceholder('What is the reason for closing this ticket?')
-                .setLabel('Provide a closing reason')
-                .setStyle(TextInputStyle.Paragraph);
+            const reason = new TextInputBuilder()
+            .setCustomId('closeReasonTicket')
+            .setRequired(true)
+            .setPlaceholder('What is the reason for closing this ticket?')
+            .setLabel('Provide a closing reason')
+            .setStyle(TextInputStyle.Paragraph);
 
-                const one = new ActionRowBuilder().addComponents(reason);
+            const one = new ActionRowBuilder().addComponents(reason);
 
-                closeModal.addComponents(one);
-                await interaction.showModal(closeModal);
-            } else if (interaction.customId == 'closeTicketModal')
-                var channel = interaction.channel;
-                var name = channel.name;
-                name = name.replace('ticket-', '');
-                const member = await interaction.guild.members.cache.get(name);  
+            closeModal.addComponents(one);
+            await interaction.showModal(closeModal);
+        } else if (interaction.customId == 'closeTicketModal') {
+            var channel = interaction.channel;
+            var name = channel.name;
+            name = name.replace('ticket-', '');
+            const member = await interaction.guild.members.cache.get(name);
 
-                const reason = ineraction.fields.getTextInputValue('closeReasonTicket');
-                await interaction.reply({ content: `🔐 Closing this ticket...`});
+            const reason = interaction.fields.getTextInputValue('closeReasonTicket');
+            await interaction.reply({ content: `🔐 Closing this ticket...`});
 
-                setTimeout(async () =>{
-                    await channel.delete().catch(err => {});
-                    await member.send(`📢 You are recieving this notification because your ticket in ${interaction.guild.name} has been closed for: \`${reason}\``).catch(err => {});
-                }, 5000)
-            }
-             else if (interaction.customId == 'ticketTranscript') {
-                const file = await createTranscript(interaction.channel, {
-                    limit: -1,
-                    returnBuffer: false,
-                    filename: `${interaction.channel.name}.html`
-                });
-            }
+            setTimeout(async () => {
+                await channel.delete().catch(err => {});
+                await member.send(`📢 You are receiving this notification because your ticket in ${interaction.guild.name} has been closed for: \`${reason}\``).catch(err => {});
+            }, 5000);
+        } else if (interaction.customId == 'ticketTranscript') {
+            const file = await createTranscript(interaction.channel, {
+                limit: -1,
+                returnBuffer: false,
+                filename: `${interaction.channel.name}.html`
+            });
 
-                var msg = await interaction.channel.send({ content: `🌎 Your transcript cache:`, files: [file] });
-                var message = `📜 **Here is your [ticket transcript](https://mahto.id/chat-exporter?url=${msg.attachments.first()?.url}) from ${interaciton.guild.name}!**`;
-                await msg.delete().catch(err => {});
-                await interaction.reply({ content: message, ephemeral: true });
-            }
+            var msg = await interaction.channel.send({ content: `🌍 Your transcript cache:`, files: [file] });
+            var message = `📜 **Here is your [ticket transcript](https://mahto.id/chat-exporter?url=${msg.attachments.first()?.url}) from ${interaction.guild.name}!**`;
+            await msg.delete().catch(err => {});
+            await interaction.reply({ content: message, ephemeral: true });
+        }
 
-     },
+    },
 };
-
-

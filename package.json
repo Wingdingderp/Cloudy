@@ -4,19 +4,31 @@
   },
   "dependencies": {
     "@discordjs/builders": "^1.7.0",
+    "axios": "^1.6.8",
     "discord-html-transcripts": "^3.2.0",
     "discord.js": "^14.14.1",
+    "disploy": "^0.5.0",
     "dotenv": "^16.4.5",
+    "fs": "^0.0.1-security",
+    "index.js": "^0.0.3",
     "zod": "^3.23.4"
   },
   "name": "cloudy",
   "description": "The Cloudy Discord Bot for the SafeCloud Discord Server!\r [safecloud.quest/discord](url)",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node src/index.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Wingdingderp",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wingdingderp/Cloudy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Wingdingderp/Cloudy/issues"
+  },
+  "homepage": "https://github.com/Wingdingderp/Cloudy#readme"
 }

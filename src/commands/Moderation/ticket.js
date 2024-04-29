@@ -69,3 +69,5 @@ module.exports = {
         }
     }
 }
+
+export default ticket
