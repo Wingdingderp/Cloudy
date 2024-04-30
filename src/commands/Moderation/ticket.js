@@ -5,8 +5,8 @@ module.exports = {
     data: new SlashCommandBuilder()
     .setName('ticket')
     .setDescription('Manage the ticket system')
-    .addSubcommand(command => command.seName('send').setDescription('Send the ticket message').addStringOption(option => option.setName('name').setDescription('The name for the open select menu content').setRequired(true)).addStringOption(option => option.setName('message').setDescription('A custom message to add to the embed').setRequired(false)))
-    .addSubcommand(command => command.setName('setup').setDescription('Setup the ticket category').addChannelOption(option => option.setName('category').setDescription('The category to send tickets in').addChannelType(ChannelType.GuildCategory).setRequired(true)))
+    .addSubcommand(command => command.setName('send').setDescription('Send the ticket message').addStringOption(option => option.setName('name').setDescription('The name for the open select menu content').setRequired(true)).addStringOption(option => option.setName('message').setDescription('A custom message to add to the embed').setRequired(false)))
+    .addSubcommand(command => command.setName('setup').setDescription('Setup the ticket category').addChannelOption(option => option.setName('category').setDescription('The category to send tickets in').addChannelTypes(ChannelType.GuildCategory).setRequired(true)))
     .addSubcommand(command => command.setName('remove').setDescription('Disable the ticket system'))
     .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
     async execute (interaction) {
@@ -69,5 +69,3 @@ module.exports = {
         }
     }
 }
-
-export default ticket
