@@ -10,7 +10,6 @@ TODO:
 * [ ] Logs
 * [ ] Moderation commands (Ex. Purge)
 * [ ] Send message in channels
-* [ ] Tickets
 * [ ] Timed messages
 * [ ] Welcome message
 
