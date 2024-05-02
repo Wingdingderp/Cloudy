@@ -15,7 +15,7 @@ module.exports = {
         let user = interaction.options.getUser('user') || interaction.member; //Sets user to the response to user option or to the member running command
         let userAvatar = user.displayAvatarURL({ size: 512 }); //Displays user avatar with dimensions 512x512
 
-        const emebd = new EmbedBuilder()
+        const embed = new EmbedBuilder()
         .setColor(0x0000FF)
         .setTitle(`${user}'s Avatar`)
         .setImage(`${userAvatar}`);
