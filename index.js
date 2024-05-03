@@ -1,6 +1,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { QuickDB } = require(`quick.db`);
+const db = new QuickDB();
 require('dotenv').config()
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -52,3 +54,12 @@ client.once(Events.ClientReady, readyClient => {
 
 // Log in to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN);
+
+// Auto Role when Member Joins
+client.on(Events.GuildMemberAdd, async (member) => {
+
+	const role = await db.get(`autorole_${member.guild.id}`);
+	const giveRole = await member.guild.roles.cache.get(role);
+
+	member.roles.add(giveRole);
+})
