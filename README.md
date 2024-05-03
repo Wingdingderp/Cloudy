@@ -4,7 +4,7 @@ The Cloudy Discord Bot for the SafeCloud Discord Server!
 
 TODO:
 
-* [ ] Auto roles
+* [x] Auto roles
 * [ ] Invite tracker (User Join, User Leave)
 * [ ] Level system
 * [ ] Logs
