@@ -1,11 +1,10 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { QuickDB } = require(`quick.db`);
-const db = new QuickDB();
 require('dotenv').config()
+const mongoose = require('mongoose');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers ] });
 
 client.commands = new Collection();
 
@@ -55,11 +54,25 @@ client.once(Events.ClientReady, readyClient => {
 // Log in to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN);
 
-// Auto Role when Member Joins
-client.on(Events.GuildMemberAdd, async (member) => {
+// Login to MongoDB
+(async () => {
+	try {
+	  mongoose.set('strictQuery', false);
+	  await mongoose.connect(process.env.mongoURL);
+	  console.log('Connected to DB.');
+	}
+  catch (err) {
+	  console.log(err);
+	}
+})();
 
-	const role = await db.get(`autorole_${member.guild.id}`);
-	const giveRole = await member.guild.roles.cache.get(role);
+//Join Role
+const autoRole = require('./src/Schemas/AutoRole');
 
-	member.roles.add(giveRole);
+client.on(Events.GuildMemberAdd, async (member, guild) => {
+
+	const role = await autoRole.findOne({ Guild: member.guild.id });
+	if (!role) return;
+	const giverole = member.guild.roles.cache.get(role.RoleID);
+	member.roles.add(giverole);
 })
