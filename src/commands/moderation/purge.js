@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js')
+const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -13,7 +13,7 @@ module.exports = {
     ),
 
     async execute(interaction) {
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return await interaction.reply({ content: "You cannot purge messages", ephemeral: true});
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) return await interaction.reply({ content: "You cannot purge messages", ephemeral: true});
         const { channel, client, options, member } = interaction;
         const count = interaction.options.getNumber('count');
         interaction.channel.bulkDelete(count)
@@ -26,10 +26,10 @@ module.exports = {
         }
         else {
             const embed = new EmbedBuilder()
-            .setColor(0x0000FF)
+            .setColor('Blue')
             .setTitle(`Purged ${count} messages!`)
             .setDescription(`Command ran by ${interaction.member.displayName}`) 
-        }
+        };
         await interaction.reply({ embeds: [embed] });
     }
 }

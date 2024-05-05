@@ -16,7 +16,7 @@ module.exports = {
         let userAvatar = user.displayAvatarURL({ size: 512 }); //Displays user avatar with dimensions 512x512
 
         const embed = new EmbedBuilder()
-        .setColor(0x0000FF)
+        .setColor('Blue')
         .setTitle(`${user}'s Avatar`)
         .setImage(`${userAvatar}`);
 
