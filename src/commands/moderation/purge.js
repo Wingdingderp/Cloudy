@@ -2,8 +2,8 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('disc
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setname('purge')
-    .setdescription('Deletes an amount of messages')
+    .setName('purge')
+    .setDescription('Deletes an amount of messages')
     .addNumberOption((option) =>
     option.setName('count')
     .setDescription('How many messages will be deleted')

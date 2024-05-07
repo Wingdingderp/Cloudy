@@ -1,63 +1,42 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders')
+const { EmbedBuilder, PermissionsBitField } = require('discord.js')
 
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('kick')
-    .setDescription('kick a user from the server')
-    .addUserOption((option) =>
-    option.setName('user')
-    .setDescription('what user do you want to kick')
-    .setRequired(true)
-    )
-    .addStringOption((option) =>
-    option.setName('reason')
-    .setDescription('why are you kicking them')
-    .setRequired(false)
-    )
-    .addBooleanOption((option) =>
-    option.setName('hide reason')
-    .setDescription('Hide the reason from the kicked party, default false')
-    .setRequired(false)
-    ),
-    async execute(interaction) {
+    .setDescription('Kicks a server member')
+    .addUserOption(option => option.setName('target').setDescription('The user you would like to kick').setRequired(true))
+    .addStringOption(option => option.setName('reason').setDescription('The reason for kicking the user')),
+    async execute (interaction, client) {
 
-        const user = interaction.options.getUser('user');
-        const member = interaction.guild.members.fetch(user.id);
-        const reason = interaction.options.getString('reason') || 'no reason provided';
-        const hidden = interaction.options.getBoolean('hide reason') || false;
+        const kickUser = interaction.options.getUser('target');
+        const kickMember = await interaction.guild.members.fetch(kickUser.id);
+        const channel = interaction.channel;
 
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ModerateMembers)) return await interaction.reply({ content: `You must have the moderate members perm to use this command`, ephemeral: true});
-        if (!member) return await interaction.reply({ content: 'The user mentioned is no logner within the server', ephemeral: true});
-        if (!member.kickable) return await interaction.reply({ content: 'I cannot kick this user! That is because either their role or themselves are above me!', ephemeral: true});
-        if (interaction.member.id === member.id) return await interaction.reply({ content: 'You cannot kick yourself!', ephemeral: true});
-        if (member.permissions.has(PermissionsBitField.Flags.Administrator)) return await interaction.reply({ content: 'You cannot kick a person with the admin permission', ephemeral: true});
-
-        member.kick(reason);
-
-        const embed = new EmbedBuilder()
-        .setColor('Blue')
-        .setTitle(`Kicked ${member.displayName}\nreason: ${reason}`)
-        .setDescription(`Command ran by ${interaction.member.displayName}`);
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.KickMembers)) return await interaction.reply({ content: "You must have the Kick Members permission to use this command", ephemeral: true});
+        if (!kickMember) return await interaction.reply({ content: 'The user mentioned is no longer within the server', ephemeral: true});
+        if (!kickMember.kickable) return await interaction.reply({ content: "I cannot kick this user because they have roles above me or you", ephemearl: true});
+        
+        let reason = interaction.options.getString('reason');
+        if (!reason) reason = "No reason given.";
 
         const dmEmbed = new EmbedBuilder()
-        .setColor('Blue')
-        .setTitle(`Kicked from ${interaction.guild.name} by ${interaction.member.displayName}`);
-        if (hidden == false) {
-            dmEmbed.setDescription(`Reason: ${reason}`)
-        }
-        else {
-            dmEmbed.setDescription('No reason provided')
-        };
+        .setColor("Blue")
+        .setDescription(`:white_check_mark:  You have been kicked from **${interaction.guild.name}** | ${reason}`)
 
+        const embed = new EmbedBuilder()
+        .setColor("Blue")
+        .setDescription(`:white_check_mark:  ${kickUser.tag} has been **kicked** | ${reason}`)
 
-        await member.send({
-            embeds: [dmEmbed]
-        }).catch(err => {
+        await kickMember.send({ embeds: [dmEmbed] }).catch(err => {
             return;
         });
-        await interaction.reply({
-            embeds: [embed]
-        });
-    }
 
+        await kickMember.kick({ reason: reason}).catch(err => {
+            interaction.reply({ content: "There was an error", ephemeral: true});
+        });
+
+        await interaction.reply({ embeds: [embed] });
+
+    }
 }

@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, AuditLogEvent, EmbedBuilder } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, AuditLogEvent, EmbedBuilder, Message } = require('discord.js');
 require('dotenv').config()
 const mongoose = require('mongoose');
 
@@ -304,7 +304,7 @@ client.on(Events.MessageDelete, async message => {
 	.then(async audit => {
 		const { executor } = audit.entries.first()
 
-		const mes = message.content;
+		const mes = Message.content;
 
 		if (!mes) return;
 
@@ -316,7 +316,7 @@ client.on(Events.MessageDelete, async message => {
 		.setTitle("Message Deleted")
 		.addFields({ name: "Message Content", value: `${mes}`, inline: false})
 		.addFields({ name: "Message Channel", value: `${message.channel}`, inline: false})
-		.addFields({ name: "Deleted By", value: `${executor.tag}`, inline: false})
+		.addFields({ name: "Deleted By", value: `<@${executor.tag}>`, inline: false})
 		.setTimestamp()
 		.setFooter({ text: "Mod Logging System"})
 
@@ -325,7 +325,7 @@ client.on(Events.MessageDelete, async message => {
 })
 
 //Message Edit
-client.on(Events.MessageUpdate, async (member, newMessage, message) => {
+client.on(Events.MessageUpdate, async (member, oldMessage, message) => {
 
 	member.guild.fetchAuditLogs({
 		type: AuditLogEvent.MessageUpdate
@@ -343,10 +343,10 @@ client.on(Events.MessageUpdate, async (member, newMessage, message) => {
 		const embed = new EmbedBuilder()
 		.setColor("Blue")
 		.setTitle("Message Edited")
-		.addFields({ name: "Old Message", value: `${mes}`, inline: false})
-		.addFields({ name: "New Message", value: `${newMessage}`, inline: false})
+		.addFields({ name: "Old Message", value: `${oldMessage}`, inline: false})
+		.addFields({ name: "New Message", value: `${mes}`, inline: false})
 		.addFields({ name: "Message Channel", value: `${message.channel}`, inline: false})
-		.addFields({ name: "Edited By", value: `${executor.tag}`, inline: false})
+		.addFields({ name: "Edited By", value: `<@${executor.tag}>`, inline: false})
 		.setTimestamp()
 		.setFooter({ text: "Mod Logging System"})
 
@@ -484,4 +484,57 @@ client.on(Events.WebhookCreate, async webhook => {
 
 		mChannel.send({ embeds: [embed] })
 	})
+})
+
+
+//Level System
+const levelSchema = require('./src/Schemas/level');
+client.on(Events.MessageCreate, async (message) => {
+
+	const { guild, author } = message;
+
+	if (!guild || author.bot) return;
+
+	levelSchema.findOne({ Guild: guild.id, User: author.id}, async (err, data) => {
+
+		if (err) throw err;
+
+		if (!data) {
+			levelSchema.create({
+				Guild: guild.id,
+				User: author.id,
+				XP: 0,
+				Level: 0
+			})
+		}
+	})
+
+	const channel = message.channel;
+
+	const give = 1;
+
+	const data = await levelSchema.findOne({ Guild: guild.id, User: author.id});
+
+	if (!data) return;
+
+	const requiredXP = data.level * data.Level * 20 + 20;
+
+	if (data.XP + give >= requiredXP) {
+
+		data.XP += give;
+		data.Level += 1;
+		await data.save();
+
+		if (!channel) return;
+
+		const embed = new EmbedBuilder()
+		.setColor("Blue")
+		.setDescription(`<@${author}>, you have reached Level **${data.Level}**!`)
+
+		const channel = client.channels.cache.get(process.env.DISCORD_LEVEL_UP);
+		channel.send({ embeds: [ embed] });
+	} else {
+		data.XP += give;
+		data.save()
+	}
 })
