@@ -66,15 +66,76 @@ client.login(process.env.DISCORD_TOKEN);
 	}
 })();
 
-//Join Role
-const autoRole = require('./src/Schemas/AutoRole');
-
-client.on(Events.GuildMemberAdd, async (member, guild) => {
-
-	const role = await autoRole.findOne({ Guild: member.guild.id });
-	if (!role) return;
-	const giverole = member.guild.roles.cache.get(role.RoleID);
-	member.roles.add(giverole);
+// Leave Message //
+ 
+client.on(Events.GuildMemberRemove, async (member, err) => {
+ 
+    const leavedata = await welcomeschema.findOne({ Guild: member.guild.id });
+ 
+    if (!leavedata) return;
+    else {
+ 
+        const channelID = leavedata.Channel;
+        const channelwelcome = member.guild.channels.cache.get(channelID);
+ 
+        const embedleave = new EmbedBuilder()
+        .setColor("DarkBlue")
+        .setTitle(`${member.user.username} has left`)
+        .setDescription( `> ${member} has left the Server`)
+        .setFooter({ text: `👋 Cast your goobyes`})
+        .setTimestamp()
+        .setAuthor({ name: `👋 Member Left`})
+        .setThumbnail('https://cdn.discordapp.com/attachments/1080219392337522718/1081275127850864640/largeblue.png')
+ 
+        const welmsg = await channelwelcome.send({ embeds: [embedleave]}).catch(err);
+        welmsg.react('👋');
+    }
+})
+ 
+// Welcome Message //
+ 
+client.on(Events.GuildMemberAdd, async (member, err) => {
+ 
+    const welcomedata = await welcomeschema.findOne({ Guild: member.guild.id });
+ 
+    if (!welcomedata) return;
+    else {
+ 
+        const channelID = welcomedata.Channel;
+        const channelwelcome = member.guild.channels.cache.get(channelID)
+        const roledata = await roleschema.findOne({ Guild: member.guild.id });
+ 
+        if (roledata) {
+            const giverole = await member.guild.roles.cache.get(roledata.Role)
+ 
+            member.roles.add(giverole).catch(err => {
+                console.log('Error received trying to give an auto role!');
+            })
+        }
+ 
+        const embedwelcome = new EmbedBuilder()
+         .setColor("DarkBlue")
+         .setTitle(`${member.user.username} has arrived\nto the Server!`)
+         .setDescription( `> Welcome ${member} to the Sevrer!`)
+         .setFooter({ text: `👋 Get cozy and enjoy :)`})
+         .setTimestamp()
+         .setAuthor({ name: `👋 Welcome to the Server!`})
+         .setThumbnail('https://cdn.discordapp.com/attachments/1080219392337522718/1081275127850864640/largeblue.png')
+ 
+        const embedwelcomedm = new EmbedBuilder()
+         .setColor("DarkBlue")
+         .setTitle('Welcome Message')
+         .setDescription( `> Welcome to ${member.guild.name}!`)
+         .setFooter({ text: `👋 Get cozy and enjoy :)`})
+         .setTimestamp()
+         .setAuthor({ name: `👋 Welcome to the Server!`})
+         .setThumbnail('https://cdn.discordapp.com/attachments/1080219392337522718/1081275127850864640/largeblue.png')
+ 
+        const levmsg = await channelwelcome.send({ embeds: [embedwelcome]});
+        levmsg.react('👋');
+        member.send({ embeds: [embedwelcomedm]}).catch(err => console.log(`Welcome DM error: ${err}`))
+ 
+    } 
 })
 
 //**Moderation Logs
@@ -488,7 +549,7 @@ client.on(Events.WebhookCreate, async webhook => {
 
 
 //Level System
-const levelSchema = require('./src/Schemas/level');
+const levelSchema = require('./src/Schemas.js/level');
 client.on(Events.MessageCreate, async (message) => {
 
 	const { guild, author } = message;
