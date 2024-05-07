@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require(`@discordjs/builders`);
 const { EmbedBuilder, AttachmentBuilder, PermissionsBitField, Embed } = require(`discord.js`);
-const levelSchema = require('../../Schemas/level');
+const levelSchema = require('../../Schemas.js/level');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -34,7 +34,7 @@ module.exports = {
 
             const member = value.tag;
 
-            text += `${counter + 1}. ${member} | XP: ${XP} | Level: ${Level} /n`
+            text += `${counter + 1}. ${member} | XP: ${XP} | Level: ${Level} \n`
 
             const embed = new EmbedBuilder()
             .setColor("Blue")

@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require(`@discordjs/builders`);
 const { EmbedBuilder, AttachmentBuilder } = require(`discord.js`);
-const levelSchema = require('../../Schemas/level');
-const Canvacord = require('canvacord');
+const levelSchema = require('../../Schemas.js/level');
+const { RankCardBuilder, Font } = require("canvacord");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -27,9 +27,10 @@ module.exports = {
 
         const Required = Data.Level * Data.Level * 20 + 20;
 
-        const rank = new Canvacord.Rank()
+        Font.loadDefault();
+
+        const rank = new RankCardBuilder()
         .setAvatar(member.displayAvatarURL({ forseStatic: true}))
-        .setBackground("IMAGE", `https://cdn.discordapp.com/attachments/655859849019654165/1237180406361620570/pexels-photo-281260.png?ex=663ab58a&is=6639640a&hm=75bc39fc588c444df501e13ba8d3fc16ed5b06db1691e94aff5bd9b210939db4&`)
         .setCurrentXP(Data.XP)
         .setRequiredXP(Required)
         .setRank(1, "Rank", false)

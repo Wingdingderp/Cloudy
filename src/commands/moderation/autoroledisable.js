@@ -1,12 +1,12 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 
 
-const autoRole = require('../../Schemas/AutoRole')
+const autoRole = require('../../Schemas.js/autorole')
 
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('autorole_disable')
-    .setDescription('Disable the auto role sytem for the server.'),
+    .setDescription('Disable the auto role system for the server.'),
     async execute (interaction) {
 
         const data = await autoRole.findOne({ Guild: interaction.guild.id });

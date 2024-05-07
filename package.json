@@ -8,6 +8,7 @@
     "axios": "^1.6.8",
     "better-sqlite3": "^9.6.0",
     "canvacord": "^6.0.2",
+    "discord-canvas": "^1.5.2",
     "discord-html-transcripts": "^3.2.0",
     "discord.js": "^14.14.1",
     "disploy": "^0.5.0",
