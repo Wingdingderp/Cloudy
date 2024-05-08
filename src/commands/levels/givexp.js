@@ -3,7 +3,7 @@ const levelSchema = require('../../Schemas.js/level');
 
 module.exports = {
     data: new SlashCommandBuilder()
-    .setName('setxp')
+    .setName('givexp')
     .setDescription('Give a user specified amount of XP.')
     .addUserOption(option => option.setName('user').setDescription('Specified user will be given specified amount of XP.').setRequired(true))
     .addNumberOption(option => option.setName('amount').setDescription('The amount of XP you want to give specified user.').setRequired(true)),
@@ -32,7 +32,7 @@ module.exports = {
             Data.XP += give;
             Data.save();
 
-            interaction.reply({ content: `Gave **${user.username}** **${amount}**XP.`, ephemeral: true})
+            interaction.reply({ content: `Gave **${user.username}** ${amount}XP.`, ephemeral: true})
         })
     }
 }
