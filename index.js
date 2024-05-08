@@ -1,6 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits, AuditLogEvent, EmbedBuilder, Message } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 require('dotenv').config()
 const mongoose = require('mongoose');
 
@@ -196,3 +196,5 @@ client.on(Events.MessageCreate, async (message) => { // Make sure to define Even
         await data.save();
     }
 });
+
+//Ticket System

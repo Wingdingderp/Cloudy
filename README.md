@@ -6,10 +6,10 @@ TODO:
 
 * [x] Auto roles
 * [ ] Invite tracker (User Join, User Leave)
-* [ ] Level system
+* [x] Level system
 * [ ] Logs
 * [ ] Moderation commands (Ex. Purge)
 * [ ] Send message in channels
 * [ ] Timed messages
-* [ ] Welcome message
+* [x] Welcome message
 
