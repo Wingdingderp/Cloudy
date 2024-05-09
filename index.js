@@ -197,4 +197,36 @@ client.on(Events.MessageCreate, async (message) => { // Make sure to define Even
     }
 });
 
-//Ticket System
+//Counting
+const counting = require("./src/Schemas.js/countingschema");
+client.on(Events.MessageCreate, async message => {
+    if (!message.guild) return;
+    if (message.author.bot) return;
+
+    const data = await counting.findOne({ Guild: message.guild.id});
+    if (!data) return;
+    else {
+
+        if (message.channel.id !== data.Channel) return;
+
+        const number = Number(message.content);
+
+        if (number !== data.Number) {
+            return message.react(`❌`);
+        } else if (data.LastUser === message.author.id) {
+            message.react(`❌`);
+            const msg = await message.reply(`❌ Someone else has to count that number!`);
+
+            setTimeout(async () => {
+                await msg.delete();
+            }, 5000);
+        } else {
+            await message.react(`✅`);
+
+            data.LastUser = message.author.id;
+            data.Number++;
+            await data.save();
+        }
+
+    }
+});

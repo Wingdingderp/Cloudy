@@ -8,7 +8,7 @@ TODO:
 * [ ] Invite tracker (User Join, User Leave)
 * [x] Level system
 * [ ] Logs
-* [ ] Moderation commands (Ex. Purge)
+* [x] Moderation commands (Ex. Purge)
 * [ ] Send message in channels
 * [ ] Timed messages
 * [x] Welcome message
