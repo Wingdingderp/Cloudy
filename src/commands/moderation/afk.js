@@ -28,8 +28,9 @@ module.exports = {
                     Nickname: nickname
                 })
 
-                const name = `[AFK] ${nickname}`;
+                const name = `${nickname} [AFK]`;
                 await interaction.member.setNickname(`${name}`).catch(err => {
+                    console.log(err)
                     return;
                 })
 

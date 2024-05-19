@@ -124,10 +124,11 @@ client.on(Events.MessageCreate, async message => {
         await afkSchema.deleteMany({ Guild: message.guild.id, User: message.author.id});
 
         await message.member.setNickname(`${nick}`).catch(err => {
+            console.log(err)
             return;
         })
 
-        const m1 = await message.send({ content: `Welcome back, ${message.author}! I have removed your afk`, ephemeral: true});
+        const m1 = await message.reply({ content: `Welcome back, ${message.author}! I have removed your afk`, ephemeral: true});
         setTimeout(() => {
             m1.delete();
         }, 4000)
@@ -142,7 +143,7 @@ client.on(Events.MessageCreate, async message => {
         const msg = Data.Message || `No Reason Given`;
 
         if (message.content.includes(members)) {
-            const m = await message.send({ content: `${member.user.tag} is currently AFK: ${msg}`});
+            const m = await message.reply({ content: `${member.user.tag} is currently AFK: ${msg}`, mention_author: false});
         }
     }
 })
@@ -206,6 +207,7 @@ client.on(Events.MessageCreate, async (message) => { // Make sure to define Even
         await data.save();
     }
 });
+
 
 //Starboard System
 const starboard = require('./src/Schemas.js/starboardschema');
