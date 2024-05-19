@@ -113,6 +113,41 @@ client.on(Events.GuildMemberAdd, async (member, err) => {
     } 
 })
 
+//AFK System
+const afkSchema = require('./src/Schemas.js/afkSchema');
+client.on(Events.MessageCreate, async message => {
+    if (message.author.bot) return;
+
+    const check = await afkSchema.findOne({ Guild: message.guild.id, User: message.author.id});
+    if (check) {
+        const nick = check.Nickname;
+        await afkSchema.deleteMany({ Guild: message.guild.id, User: message.author.id});
+
+        await message.member.setNickname(`${nick}`).catch(err => {
+            return;
+        })
+
+        const m1 = await message.send({ content: `Welcome back, ${message.author}! I have removed your afk`, ephemeral: true});
+        setTimeout(() => {
+            m1.delete();
+        }, 4000)
+    } else {
+
+        const members = message.mentions.users.first();
+        if (!members) return;
+        const Data = await afkSchema.findOne({ Guild: message.guild.id, User: members.id});
+        if (!Data) return;
+
+        const member = message.guild.members.cache.get(members.id);
+        const msg = Data.Message || `No Reason Given`;
+
+        if (message.content.includes(members)) {
+            const m = await message.send({ content: `${member.user.tag} is currently AFK: ${msg}`});
+        }
+    }
+})
+
+
 //Level System
 const levelRoles = {
 	5: process.env.DISCORD_LEVEL_5,
@@ -169,40 +204,6 @@ client.on(Events.MessageCreate, async (message) => { // Make sure to define Even
     } else {
         data.XP += give;
         await data.save();
-    }
-});
-
-//Counting
-const counting = require("./src/Schemas.js/countingschema");
-client.on(Events.MessageCreate, async message => {
-    if (!message.guild) return;
-    if (message.author.bot) return;
-
-    const data = await counting.findOne({ Guild: message.guild.id});
-    if (!data) return;
-    else {
-
-        if (message.channel.id !== data.Channel) return;
-
-        const number = Number(message.content);
-
-        if (number !== data.Number) {
-            return message.react(`❌`);
-        } else if (data.LastUser === message.author.id) {
-            message.react(`❌`);
-            const msg = await message.reply(`❌ Someone else has to count that number!`);
-
-            setTimeout(async () => {
-                await msg.delete();
-            }, 5000);
-        } else {
-            await message.react(`✅`);
-
-            data.LastUser = message.author.id;
-            data.Number++;
-            await data.save();
-        }
-
     }
 });
 
