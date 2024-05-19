@@ -1,6 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
-
-
 const autoRole = require('../../Schemas.js/autorole')
 
 module.exports = {
