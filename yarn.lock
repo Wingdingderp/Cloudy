@@ -582,10 +582,10 @@
   dependencies:
     eventemitter3 "^5.0.0"
 
-"@esbuild/win32-x64@0.16.17":
+"@esbuild/darwin-x64@0.16.17":
   version "0.16.17"
-  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.16.17.tgz"
-  integrity sha512-y+EHuSchhL7FjHgvQL/0fnnFmO4T1bhvWANX6gcnqTjtnKWbTvUMCpGnv2+t+31d7RzyEAYAd4u2fnIhHL6N/Q==
+  resolved "https://registry.npmjs.org/@esbuild/darwin-x64/-/darwin-x64-0.16.17.tgz"
+  integrity sha512-2By45OBHulkd9Svy5IOCZt376Aa2oOkiE9QWUK9fe6Tb+WDr8hXL3dpqi+DeLiMed8tVXspzsTAvd0jUl96wmg==
 
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
@@ -682,10 +682,10 @@
   dependencies:
     sparse-bitfield "^3.0.3"
 
-"@napi-rs/canvas-win32-x64-msvc@0.1.52":
+"@napi-rs/canvas-darwin-x64@0.1.52":
   version "0.1.52"
-  resolved "https://registry.npmjs.org/@napi-rs/canvas-win32-x64-msvc/-/canvas-win32-x64-msvc-0.1.52.tgz"
-  integrity sha512-hMI626VsCC/wv29qHF78N7TSG+auatOp08DHln0Zdif5y1NJ14NU/rNUhzlTW8Zc6ssw+AMDJ3KKYYWYYg1aoA==
+  resolved "https://registry.npmjs.org/@napi-rs/canvas-darwin-x64/-/canvas-darwin-x64-0.1.52.tgz"
+  integrity sha512-3fgeGJ3j2X6Mtmn0QYf3iA+A6y1ePnsayakc2emEokzf03ErrPczONw3vjnTQo53JLPMzEnfPGAffdktU/ssPA==
 
 "@napi-rs/canvas@^0.1.44":
   version "0.1.52"
@@ -702,10 +702,10 @@
     "@napi-rs/canvas-linux-x64-musl" "0.1.52"
     "@napi-rs/canvas-win32-x64-msvc" "0.1.52"
 
-"@napi-rs/image-win32-x64-msvc@1.9.2":
+"@napi-rs/image-darwin-x64@1.9.2":
   version "1.9.2"
-  resolved "https://registry.npmjs.org/@napi-rs/image-win32-x64-msvc/-/image-win32-x64-msvc-1.9.2.tgz"
-  integrity sha512-baRyTED6FkTsPliSOH7x8TV/cyAST9y6L1ClSgSCVEx7+W8MKKig90fF302kEa2PwMAyrXM3Ytq9KuIC7xJ+eA==
+  resolved "https://registry.npmjs.org/@napi-rs/image-darwin-x64/-/image-darwin-x64-1.9.2.tgz"
+  integrity sha512-8SnFDcgUSoL6Y38lstXi5FYECD1f4dJqQe2UCTwciED8gZnpC8Pju7JYJWcYgHHXn1JnKP9T1lPlSaX+L56EgA==
 
 "@napi-rs/image@^1.7.0":
   version "1.9.2"
@@ -746,10 +746,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@resvg/resvg-js-win32-x64-msvc@2.6.2":
+"@resvg/resvg-js-darwin-x64@2.6.2":
   version "2.6.2"
-  resolved "https://registry.npmjs.org/@resvg/resvg-js-win32-x64-msvc/-/resvg-js-win32-x64-msvc-2.6.2.tgz"
-  integrity sha512-ZXtYhtUr5SSaBrUDq7DiyjOFJqBVL/dOBN7N/qmi/pO0IgiWW/f/ue3nbvu9joWE5aAKDoIzy/CxsY0suwGosQ==
+  resolved "https://registry.npmjs.org/@resvg/resvg-js-darwin-x64/-/resvg-js-darwin-x64-2.6.2.tgz"
+  integrity sha512-GInyZLjgWDfsVT6+SHxQVRwNzV0AuA1uqGsOAW+0th56J7Nh6bHHKXHBWzUrihxMetcFDmQMAX1tZ1fZDYSRsw==
 
 "@resvg/resvg-js@^2.6.0":
   version "2.6.2"
@@ -2501,6 +2501,11 @@ fs@^0.0.1-security:
   version "0.0.1-security"
   resolved "https://registry.npmjs.org/fs/-/fs-0.0.1-security.tgz"
   integrity sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==
+
+fsevents@~2.3.2:
+  version "2.3.3"
+  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
+  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.2:
   version "1.1.2"

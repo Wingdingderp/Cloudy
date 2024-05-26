@@ -11,7 +11,7 @@ module.exports = {
     .addSubcommand(command => command.setName('remove').setDescription('Removes your auto-role.')),
     async execute(interaction) {
         
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles) && interaction.user.id !== '619944734776885276') return await interaction.reply({ content: 'You **do not** have the permission to do that!', ephemeral: true});
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageRoles) && interaction.user.id !== '320649517592739841') return await interaction.reply({ content: 'You **do not** have the permission to do that!', ephemeral: true});
         const sub = interaction.options.getSubcommand();
 
         switch (sub) {

@@ -59,13 +59,12 @@ client.on(Events.GuildMemberRemove, async (member, err) => {
         .setColor("DarkBlue")
         .setTitle(`${member.user.username} has left`)
         .setDescription( `> ${member} has left the Server`)
-        .setFooter({ text: `👋 Cast your goobyes`})
+        .setFooter({ text: `👋 Cast your goodbyes`})
         .setTimestamp()
         .setAuthor({ name: `👋 Member Left`})
-        .setThumbnail('https://cdn.discordapp.com/attachments/1080219392337522718/1081275127850864640/largeblue.png')
+        .setThumbnail('https://cdn.discordapp.com/attachments/1209222106278006787/1243557911712497715/IMG_0923.png?ex=66548c0e&is=66533a8e&hm=d7da4452408c2aa432bf222bb7be6aa0d8999c2231ce8231ce5e256eb821bcf4&')
  
         const welmsg = await channelwelcome.send({ embeds: [embedleave]}).catch(err);
-        welmsg.react('👋');
     }
 })
  
@@ -97,7 +96,7 @@ client.on(Events.GuildMemberAdd, async (member, err) => {
          .setFooter({ text: `👋 Get cozy and enjoy :)`})
          .setTimestamp()
          .setAuthor({ name: `👋 Welcome to the Server!`})
-         .setThumbnail('https://cdn.discordapp.com/attachments/1080219392337522718/1081275127850864640/largeblue.png')
+         .setThumbnail('https://cdn.discordapp.com/attachments/1209222106278006787/1243557911469490256/IMG_0922.png?ex=66548c0e&is=66533a8e&hm=e123af3fe457c3858851f5d90ea21037e2a86f4c70e50344520f125d407415da&')
  
         const embedwelcomedm = new EmbedBuilder()
          .setColor("DarkBlue")
@@ -106,10 +105,9 @@ client.on(Events.GuildMemberAdd, async (member, err) => {
          .setFooter({ text: `👋 Get cozy and enjoy :)`})
          .setTimestamp()
          .setAuthor({ name: `👋 Welcome to the Server!`})
-         .setThumbnail('https://cdn.discordapp.com/attachments/1080219392337522718/1081275127850864640/largeblue.png')
+         .setThumbnail('https://cdn.discordapp.com/attachments/1209222106278006787/1243557911469490256/IMG_0922.png?ex=66548c0e&is=66533a8e&hm=e123af3fe457c3858851f5d90ea21037e2a86f4c70e50344520f125d407415da&')
  
         const levmsg = await channelwelcome.send({ embeds: [embedwelcome]});
-        levmsg.react('👋');
         member.send({ embeds: [embedwelcomedm]}).catch(err => console.log(`Welcome DM error: ${err}`))
  
     } 

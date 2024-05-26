@@ -14,6 +14,9 @@ module.exports = {
         const Member = options.getMember('user') || user;
 
         const member = guild.members.cache.get(Member.id);
+        
+        const mention = '@'
+        const fullMention = mention + member.user.username
 
         const Data = await levelSchema.findOne({ Guild: guild.id, User: member.id });
 
@@ -27,15 +30,17 @@ module.exports = {
 
         const Required = Data.Level * Data.Level * 20 + 20;
 
-        Font.loadDefault();
+        Font.loadDefault(20);
 
         const rank = new RankCardBuilder()
         .setAvatar(member.displayAvatarURL({ forseStatic: true}))
+        .setBackground('https://cdn.discordapp.com/attachments/1209222106278006787/1244360887016620122/Welcome.jpg?ex=6654d4e2&is=66538362&hm=816c5f4138dd70603f34fb1fb7203c1e029b9912b2efc8a0ea4d24ab99c0fdea&')
         .setCurrentXP(Data.XP)
         .setRequiredXP(Required)
         .setRank(1, "Rank", false)
         .setLevel(Data.Level, "Level")
-        .setUsername(member.user.username)
+        .setUsername(fullMention)
+        .setDisplayName(member.user.username)
 
         const Card = await rank.build();
 

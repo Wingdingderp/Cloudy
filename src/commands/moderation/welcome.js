@@ -11,7 +11,7 @@ module.exports = {
     .addSubcommand(command => command.setName('remove').setDescription('Removes your welcome channel.')),
     async execute(interaction) {
  
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator) && interaction.user.id !== '619944734776885276') return await interaction.reply ({ content: "You **do not** have the permission to do that!", ephemeral: true});
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator) && interaction.user.id !== '320649517592739841') return await interaction.reply ({ content: "You **do not** have the permission to do that!", ephemeral: true});
  
         const sub = interaction.options.getSubcommand();
  
@@ -37,7 +37,7 @@ module.exports = {
             .setFooter({ text: `⚙️ Use /welcome remove to undo`})
             .setTimestamp()
             .setFields({ name: `• Channel was Set`, value: `> The channel ${channel} has been \n> set as your Welcome Channel.`, inline: false})
-            .setThumbnail('https://cdn.discordapp.com/attachments/1080219392337522718/1081267701302972476/largered.png')
+            .setThumbnail('https://cdn.discordapp.com/attachments/1209222106278006787/1243557911469490256/IMG_0922.png?ex=66548c0e&is=66533a8e&hm=e123af3fe457c3858851f5d90ea21037e2a86f4c70e50344520f125d407415da&')
  
             await interaction.reply({ embeds: [embed] });
  
@@ -47,7 +47,7 @@ module.exports = {
  
         case 'remove':
  
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator) && interaction.user.id !== '619944734776885276') return await interaction.reply ({ content: "You **do not** have the permission to do that!", ephemeral: true});
+        if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator) && interaction.user.id !== '320649517592739841') return await interaction.reply ({ content: "You **do not** have the permission to do that!", ephemeral: true});
  
         const weldata = await weschema.findOne({ Guild: interaction.guild.id });
         if (!weldata) return await interaction.reply({ content: `You **do not** have a welcome channel yet. \n> Do **/welcome set** to set up one.`, ephemeral: true})
