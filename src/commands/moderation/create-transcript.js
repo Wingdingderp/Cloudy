@@ -12,10 +12,9 @@ module.exports = {
 const channel = interaction.channel;
 const transcriptChannel = interaction.client.channels.cache.get(process.env.TRANSCRIPT_CHANNEL);
 const attachment = await discordTranscripts.createTranscript(channel);
-const newChannelcreator = interaction.user.displayName
 
         const embed = new EmbedBuilder()
-    .setTitle(`Transcript Generated | ${newChannelcreator}'s Ticket`)
+    .setTitle(`Transcript Generated | ${channel.name}`)
     .setDescription('Your channel transcript has been attached below.')
     .setTimestamp()
     .setColor("Blue")

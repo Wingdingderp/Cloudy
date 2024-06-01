@@ -253,8 +253,7 @@ module.exports = {
 //Ticket System
 const ticketcategory = process.env.TICKET_CATEGORY
 const staffrole = process.env.DISCORD_TICKET_MANAGER_ROLE
-const User = require('./src/Schemas.js/userSchema');
-
+const tickets = require('./src/Schemas.js/ticketSchema');
 
 client.on(Events.InteractionCreate, async interaction => {
 	if (interaction.customId === 'ticket') {
@@ -268,9 +267,6 @@ client.on(Events.InteractionCreate, async interaction => {
 	.setLabel("What's the reason for this ticket?")
 	.setStyle(TextInputStyle.Short);
   
-  
-  
-  
 	const q1m = new ActionRowBuilder().addComponents(q1);
 	ticketmodal.addComponents(q1m);
   
@@ -282,25 +278,19 @@ client.on(Events.InteractionCreate, async interaction => {
 	interaction
 	.awaitModalSubmit({ filter, time: 60000 })
 	.then(async (interaction) => {
-
-
 	  const q1 = interaction.fields.getTextInputValue('q1'); 
 	  const newChannelcreator = interaction.user
 	  const newChannelcreatorid = interaction.user.id
-
-
-	  const data = await User.findOne({ username: interaction.user.tag})
-	  if (data)  { 
-		const embed = new EmbedBuilder()
-		.setTitle('Ticket is already opened')
-		.setDescription('You already have an opened ticket.')
-		.setTimestamp()
-		.setColor('Blue')
-		await interaction.reply({ embeds: [embed], ephemeral: true })
-		} else {
+	  doc = await tickets.findOne({ Guild: interaction.guild.id })
+	  if (!doc) {
+		id = 0
+	  } else {
+		id = doc.get("id")
+	  }
+	  nextID = id + 1;
 
 		  const newChannel = await interaction.guild.channels.create({
-			name: `ticket-${interaction.user.tag}`,
+			name: `${nextID.toString().padStart(4, '0')}-${interaction.user.tag}`,
 			type: ChannelType.GuildText,
 			parent: ticketcategory,
 			permissionOverwrites: [
@@ -317,15 +307,18 @@ client.on(Events.InteractionCreate, async interaction => {
 					allow: [PermissionsBitField.Flags.ViewChannel],
 				}
 			],
-			
+
 			});
-            const data = await User.findOne({ username: interaction.user.tag })
-            if (!data) {
-			await User.create({
-				username: interaction.user.tag,
-				tickets: `1`,
-				channelid: `${newChannel.id}`
-			  })}
+
+			const Data = await tickets.findOne({ Guild: interaction.guild.id })
+			if (!Data) {
+				tickets.create({
+					Guild: interaction.guild.id,
+					id: nextID
+				})
+			} else {
+			await tickets.findOneAndUpdate({ Guild: interaction.guild.id}, { id: nextID })
+		}
 
 			const embed = new EmbedBuilder()
 			.setTitle('Ticket')
@@ -361,8 +354,7 @@ client.on(Events.InteractionCreate, async interaction => {
 			.setTimestamp()
 			.setColor('Blue')
 			await newChannel.send({content: `||<@here>||`, embeds: [embed2], components: [row] })
-		    }
-		})
+		    })
     }
 })
 
@@ -391,25 +383,15 @@ client.on(Events.InteractionCreate, async interaction => {
 
 		await interaction.reply({ embeds: [embed], components: [row] })
 
-
-	
-
-
 	}
 })
 
 client.on(Events.InteractionCreate, async interaction => {
 	if (interaction.customId === 'yes') {
-		if (!interaction.member.roles.cache.has(staffrole)) return await interaction.reply({ content: `Invalid Permissions to close the ticket.`, ephemeral: true })
-		await User.findOneAndDelete({
-			tickets: `1`,
-			channelid: `${interaction.channel.id}`
-		  })
 
-		const newChannelcreator = interaction.user.displayName
 
 		const embed2 = new EmbedBuilder()
-		.setTitle(`Transcript Generated | ${newChannelcreator}'s Ticket`)
+		.setTitle(`Transcript Generated | ${interaction.channel.name}`)
 		.setDescription('A ticket channel transcript has been attached')
 		.setTimestamp()
 		.setColor('Blue')
@@ -454,7 +436,7 @@ client.on(Events.InteractionCreate, async interaction => {
 	.addComponents(yes, no)
 
 		await interaction.message.edit({ embeds: [embed], ephemeral: false, components: [row] })
-		await interaction.reply({ content: `Action has been taken`, ephemeral: true})
+		await interaction.reply({ content: `No action has been taken`, ephemeral: true})
 
 	}
 })
@@ -506,10 +488,8 @@ client.on(Events.InteractionCreate, async interaction => {
 	if (interaction.customId === 'transcript') {
 		if (!interaction.member.roles.cache.has(staffrole)) return await interaction.reply({ content: `Invalid Permissions to take action within this ticket.`, ephemeral: true })
 
-			const newChannelcreator = interaction.user.displayName
-
 		const embed = new EmbedBuilder()
-	.setTitle(`Transcript Generated | ${newChannelcreator}'s Ticket`)
+	.setTitle(`Transcript Generated | ${interaction.channel.name}`)
 	.setDescription('Your channel transcript has been attached below.')
 	.setTimestamp()
 	.setColor('Green')

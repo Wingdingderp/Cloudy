@@ -39,8 +39,8 @@ module.exports = {
         .setRequiredXP(Required)
         .setRank(1, "Rank", false)
         .setLevel(Data.Level, "Level")
+        .setDisplayName(interaction.guild.name)
         .setUsername(fullMention)
-        .setDisplayName(member.user.username)
 
         const Card = await rank.build();
 
