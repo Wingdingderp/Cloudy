@@ -8,7 +8,7 @@ module.exports = {
     .addStringOption(option =>option.setName('nickname').setDescription(`The user's new nickname`).setRequired(true)),
     async execute (interaction) {
 
-        if (!interaction.member.me?.permissions.has(PermissionsBitField.Flags.ManageNicknames)) return await interaction.reply(`I don't have permission to change nicknames!`)
+        if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ManageNicknames)) return await interaction.reply(`I don't have permission to change nicknames!`)
         if (!interaction.member.permissions.has(PermissionsBitField.Flags.ManageNicknames)) return await interaction.reply(`You don't have the ManageNicknames permission!`)
 
         const user = interaction.options.getUser('user');
