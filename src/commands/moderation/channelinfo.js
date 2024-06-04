@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, ChannelType } = require("discord.js");
  
-const MAX_CHANNELS_PER_EMBED = 50;
+const MAX_CHANNELS_PER_EMBED = 5;
  
 module.exports = {
   admin: true,
@@ -11,31 +11,16 @@ module.exports = {
   async execute(interaction, client) {
     const guild = interaction.guild;
     await guild.members.fetch();
-    let channels = guild.channels.cache;
+    let channels = guild.channels.cache.filter(x => x.type === 0, y => y.type === 4)
  
     const channelsArray = Array.from(channels.values());
- 
-    channelsArray.sort((a, b) => b.position - a.position);
- 
-    const embeds = [];
  
     for (let i = 0; i < channelsArray.length; i += MAX_CHANNELS_PER_EMBED) {
       const channelsChunk = channelsArray.slice(i, i + MAX_CHANNELS_PER_EMBED);
 
-      const embed = new EmbedBuilder()
-        .setColor("Blue")
-        .setTitle("Server channels")
-        .setDescription(
-          channelsChunk.map((r) => `<#${r.id}> | **${r.topic?? 'No Description Provided.'}**`).join("\n")
-        );
+      msg = channelsChunk.map((r) => `<#${r.id}> | **${r.topic?? 'No Description Provided.'}**`).join("\n");
  
-      embeds.push(embed);
+      await interaction.channel.send({ content: `${msg}` });
     }
- 
-      interaction.reply({content: "All the server channels are below", ephemeral: true})
- 
-    for (const embed of embeds) {
-      await interaction.channel.send({ embeds: [embed] });
-    }
-  },
-};
+  }
+}
