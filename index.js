@@ -40,7 +40,16 @@ for (const file of eventFiles) {
 	}
 }
 
-
+var eCount = 0;
+var getEventsStatus = false;
+// Load handlers
+fs.readdirSync('./src/Event Handler').forEach((dir) => {
+	fs.readdirSync(`./src/Event Handler/${dir}`).forEach((handler) => {
+		require(`./src/Event Handler/${dir}/${handler}`)(client);
+		eCount++
+		getEventsStatus = true
+	}); 
+  });
 
 //Anti Crash System
 
