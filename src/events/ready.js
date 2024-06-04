@@ -15,7 +15,7 @@ module.exports = {
         const totalMembers = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
         const totalGuilds = client.guilds.cache.size;
         const botVersion = '1.0.0';
-        const botOwner = 'Wingdingderp & GeneralKeno';
+        const botOwner = 'Wingdingderp, GeneralKeno, & Leon';
 
         function displayAdvancedConsole() {
             console.clear();
