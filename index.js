@@ -40,6 +40,36 @@ for (const file of eventFiles) {
 	}
 }
 
+
+
+//Anti Crash System
+
+process.on('unhandledRejection', (reason, promise) => {
+	console.error("Unhandled Rejection at:", promise, "reason:", reason);
+	// Optionally use functionsExt.generateError if it logs the details as desired
+	functionsExt.generateError("Unhandled Rejection", reason.stack ? reason + '\n' + reason.stack : reason, promise);
+  });
+  
+  process.on('uncaughtException', (err) => {
+	console.error("Uncaught Exception:", err);
+	// Optionally use functionsExt.generateError if it logs the details as desired
+	functionsExt.generateError("Uncaught Exception", err.stack ? err + '\n' + err.stack : err);
+  });
+  
+  process.on('uncaughtExceptionMonitor', (err, origin) => {
+	console.error("Uncaught Exception Monitor:", err, "Origin:", origin);
+	// Optionally use functionsExt.generateError if it logs the details as desired
+	functionsExt.generateError("Uncaught Exception Monitor", err.stack ? err + '\n' + err.stack : err, origin);
+
+	(async () => {
+		for (file of functions) {
+			require(`./functions/${file}`)(client);
+		}
+		client.handleEvents(eventFiles, "./src/events");
+		client.handleCommands(commandFolders, "./src/commands");
+	})();
+  });
+  
 // Log in to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN);
 
@@ -506,4 +536,3 @@ client.on(Events.InteractionCreate, async interaction => {
 
 	}
 })
-
