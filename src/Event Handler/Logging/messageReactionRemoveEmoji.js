@@ -1,4 +1,4 @@
-const { EmbedBuilder, Events, AuditLogEvent } = require('discord.js');
+const { EmbedBuilder, Events, AuditLogEvent, ButtonBuilder } = require('discord.js');
 const Audit_Log = require("../../Schemas.js/auditlog");
 const log_actions = require("../../Schemas.js/logactions");
 const token = require("../../../encrypt").token(5);
@@ -16,7 +16,7 @@ module.exports = async (client) => {
         })
         let logID;
         if (data) {
-          logID = data.Channel
+          logID = data.messageLog
         } else {
           return;
         }

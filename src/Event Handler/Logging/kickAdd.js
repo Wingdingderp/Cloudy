@@ -17,7 +17,7 @@ module.exports = async (client) => {
         const data = await Audit_Log.findOne({ Guild: guild.id });
         if (!data || !data.Kick) return;
 
-        const auditChannel = await client.channels.fetch(data.Kick).catch(() => null);
+        const auditChannel = await client.channels.fetch(data.moderationLog).catch(() => null);
         if (auditChannel) {
             await auditChannel.send({ embeds: [auditEmbed] }).catch(() => {});
         }

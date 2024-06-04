@@ -12,7 +12,7 @@ module.exports = async (client) => {
         const guildId = channel.guild.id;
         const auditData = await Audit_Log.findOne({ Guild: guildId });
         if (!auditData) return;
-        const auditChannel = client.channels.cache.get(auditData.Channel);
+        const auditChannel = client.channels.cache.get(auditData.messageLog);
         if (!auditChannel) return;
 
         const transcriptMessages = messages.map(message => ({
@@ -44,7 +44,7 @@ module.exports = async (client) => {
         await newTranscript.save();
 
         const auditEmbed = new EmbedBuilder()
-            .setColor( 'Blue')
+            .setColor('Red')
             .setTitle("Message Bulk Delete")
             .addFields(
                 { name: "Messages Deleted", value: `${messages.size}`, inline: false },

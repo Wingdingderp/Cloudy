@@ -27,7 +27,7 @@ module.exports = async (client) => {
         })
         let logID;
         if (data) {
-          logID = data.Channel
+          logID = data.serverLog
         } else {
           return;
         }

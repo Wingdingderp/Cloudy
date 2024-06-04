@@ -20,7 +20,7 @@ module.exports = async (client) => {
 
             if (!data) return; 
 
-            const logID = data.Channel;
+            const logID = data.messageLog;
             const auditChannel = client.channels.cache.get(logID);
 
             if (!auditChannel) {
@@ -29,7 +29,7 @@ module.exports = async (client) => {
             }
 
             const auditEmbed = new EmbedBuilder()
-            .setColor( 'Blue')
+            .setColor('Red')
             .setTimestamp()
             .setFooter({ text: `Logging System` });
 

@@ -16,7 +16,7 @@ module.exports = async (client) => {
 
             // Ensure  'Blue' actually exists; otherwise, set a default color
             const auditEmbed = new EmbedBuilder()
-                .setColor( 'Blue' ?  'Blue' : '#FFFFFF') // Fallback color if  'Blue' is not defined
+                .setColor('Blue') // Fallback color if  'Blue' is not defined
                 .setTitle('Member Timed Out')
                 .addFields(
                     { name: 'User ID', value: newMember.user.id, inline: true },
@@ -29,7 +29,7 @@ module.exports = async (client) => {
             const data = await Audit_Log.findOne({ Guild: newMember.guild.id });
             if (!data) return;
 
-            const auditChannel = await client.channels.fetch(data.Timeout).catch(() => null);
+            const auditChannel = await client.channels.fetch(data.moderationLog).catch(() => null);
             if (auditChannel) {
                 await auditChannel.send({ embeds: [auditEmbed] }).catch(() => {});
             }

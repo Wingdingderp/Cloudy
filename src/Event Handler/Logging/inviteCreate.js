@@ -14,7 +14,7 @@ module.exports = async (client) => {
         })
         let logID;
         if (data) {
-            logID = data.Channel
+            logID = data.moderationLog
         } else {
             return;
         }

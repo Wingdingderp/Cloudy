@@ -14,15 +14,23 @@ module.exports = async (client) => {
         })
         let logID;
         if (data) {
-            logID = data.Channel
+            logID = data.roleLog
         } else {
             return;
+        }
+
+        if (!role.iconURL) {
+            thumbnail = ("https://maki.gg/emoji/wastebasket.png")
+        } else {
+            thumbnail = role.iconURL
         }
         const auditChannel = client.channels.cache.get(logID);
         auditEmbed.setTitle("Role Removed").addFields(
             {name: "Role Name:", value: role.name, inline: false},
             {name: "Role ID:", value: role.id, inline: false}
         )
+        .setThumbnail(thumbnail)
+
         await auditChannel.send({ embeds: [auditEmbed]}).catch((err) => {return;});
     })
 

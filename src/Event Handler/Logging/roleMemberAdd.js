@@ -13,11 +13,11 @@ module.exports = async (client) => {
         if (!addedRole) return;
 
         const data = await Audit_Log.findOne({
-            Guild: channel.guild.id
+            Guild: addedRole.guild.id
         })
         let logID;
         if (data) {
-            logID = data.Channel
+            logID = data.roleLog
         } else {
             return;
         }
