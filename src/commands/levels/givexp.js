@@ -19,15 +19,22 @@ module.exports = {
         levelSchema.findOne({ Guild: interaction.guild.id, User: user.id}, async (err, data) => {
 
             if (err) throw err;
-    
-            if (!data) return await interaction.reply({ content: `${user} needs to have **earned** past XP in order to add to their XP.`, ephemeral: true})
 
             const give = amount;
+            const lev = floor((100 + Math.sqrt((10000 + (560 * givenXP))) / 280))
+
+            if (!data) {
+                levelSchema.create({
+                    Guild: guildId,
+                    User: user.id,
+                    XP: amount,
+                    Level: lev,
+                })
+            }
 
             const Data = await levelSchema.findOne({ Guild: interaction.guild.id, User: user.id});
 
             if (!Data) return;
-
              const requiredXP = Data.Level * Data.Level * 20 + 20;
             Data.XP += give;
             Data.save();
