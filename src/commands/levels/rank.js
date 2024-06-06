@@ -28,7 +28,7 @@ module.exports = {
 
         await interaction.deferReply();
 
-        const Required = Data.Level * Data.Level * 20 + 20;
+        const Required = ((140 * Data.Level * Data.Level) - (100 * Data.Level)) - ((140 * (Data.Level-1) * (Data.Level-1)) - (100 * (Data.Level-1)));
 
         Font.loadDefault(20);
 
