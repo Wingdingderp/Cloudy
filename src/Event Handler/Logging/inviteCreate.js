@@ -18,7 +18,7 @@ module.exports = async (client) => {
         } else {
             return;
         }
-        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"})
+        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"}).setThumbnail("https://maki.gg/emoji/new.png")
         const auditChannel = client.channels.cache.get(logID);
 
         const usr = invite.inviterId !== null ? invite.inviterId : "NO ID FOUND";

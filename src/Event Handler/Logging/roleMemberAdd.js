@@ -21,7 +21,7 @@ module.exports = async (client) => {
         } else {
             return;
         }
-        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"})
+        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"}).setThumbnail("https://maki.gg/emoji/pencil.png")
         const auditChannel = client.channels.cache.get(logID);
         auditEmbed.setTitle("Member Role Added").addFields(
             { name: 'Member:', value: `<@${newMember.id}>`, inline: true },

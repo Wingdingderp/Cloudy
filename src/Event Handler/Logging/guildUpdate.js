@@ -63,7 +63,7 @@ module.exports = async (client) => {
           }
         }
         
-        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"})
+        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"}).setThumbnail("https://maki.gg/emoji/pencil.png")
         const auditChannel = client.channels.cache.get(logID);
       
         if (newBanner !== oldBanner) {

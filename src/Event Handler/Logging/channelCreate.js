@@ -23,6 +23,7 @@ module.exports = async (client) => {
                 {name: "Channel Name:", value: channel.name, inline: false},
                 {name: "Channel ID:", value: channel.id, inline: false}
             )
+            .setThumbnail("https://maki.gg/emoji/new.png")
             await auditChannel.send({ embeds: [auditEmbed]}).catch((err) => {return;});
         });
 }

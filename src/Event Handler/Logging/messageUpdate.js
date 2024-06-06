@@ -22,7 +22,7 @@ module.exports = async (client) => {
         const ignoreChannels = ['1198787608503918684'];
         if (ignoreChannels.includes(oldMessage.channel.id)) return;
 
-        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"})
+        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"}).setThumbnail("https://maki.gg/emoji/pencil.png")
         const auditChannel = client.channels.cache.get(logID);
         const id = oldMessage.id;
         const guildID = oldMessage.guild.id;

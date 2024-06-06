@@ -31,6 +31,7 @@ module.exports = async (client) => {
             const auditEmbed = new EmbedBuilder()
             .setColor('Red')
             .setTimestamp()
+            .setThumbnail("https://maki.gg/emoji/wastebasket.png")
             .setFooter({ text: `Logging System` });
 
             message.embeds.forEach(embed => {

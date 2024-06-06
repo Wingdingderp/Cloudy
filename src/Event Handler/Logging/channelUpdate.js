@@ -12,7 +12,7 @@ module.exports = async (client) => {
             return;
         }
 
-        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"})
+        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"}).setThumbnail("https://maki.gg/emoji/pencil.png")
         const data = await Audit_Log.findOne({
             Guild: oldChannel.guild.id,
         })

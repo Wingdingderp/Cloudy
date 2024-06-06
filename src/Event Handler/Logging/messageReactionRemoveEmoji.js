@@ -37,7 +37,7 @@ module.exports = async (client) => {
         const row = new ActionRowBuilder()
         .addComponents(button)
       
-        const auditEmbed = new EmbedBuilder().setColor("White").setTimestamp().setFooter({ text: "Logging System"})
+        const auditEmbed = new EmbedBuilder().setColor("White").setTimestamp().setFooter({ text: "Logging System"}).setThumbnail("https://maki.gg/emoji/wastebasket.png")
         const auditChannel = client.channels.cache.get(logID);
       
         auditEmbed.addFields(

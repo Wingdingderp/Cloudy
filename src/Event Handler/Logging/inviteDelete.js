@@ -32,6 +32,7 @@ module.exports = async (client) => {
             {name: "Max Uses:", value: `${invite.maxUses}`, inline: false},
             {name: "URL", value: `${invite.url}`}
         )
+        .setThumbnail("https://maki.gg/emoji/wastebasket.png")
         await auditChannel.send({ embeds: [auditEmbed]}).catch((err) => {return;});
     })
 

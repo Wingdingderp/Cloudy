@@ -50,6 +50,7 @@ module.exports = async (client) => {
                 { name: "Messages Deleted", value: `${messages.size}`, inline: false },
                 { name: "Channel", value: channel.name, inline: false }
             )
+            .setThumbnail("https://maki.gg/emoji/wastebasket.png")
             .setTimestamp()
             .setFooter({ text: "Logging System" });
 

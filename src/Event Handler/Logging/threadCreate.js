@@ -17,7 +17,7 @@ module.exports = async (client) => {
         } else {
             return;
         }
-        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"})
+        const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"}).setThumbnail("https://maki.gg/emoji/new.png")
         const auditChannel = client.channels.cache.get(logID);
         auditEmbed.setTitle("Thread Created").addFields(
             {name: "Name:", value: thread.name, inline: false},
