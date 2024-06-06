@@ -59,7 +59,12 @@ module.exports = async (client) => {
                 const mentionList = message.mentions.members.map(member => `<@${member.id}>`).join(", ");
                 auditEmbed.addFields({ name: "Mentions:", value: mentionList });
             }
-            
+
+            const messageHadAttachment = message.attachments.first()
+
+            if (messageHadAttachment) {
+                auditEmbed.setThumbnail(messageHadAttachment.proxyURL)
+            }
 
             messageSend.embeds.push(auditEmbed)
 
