@@ -21,9 +21,11 @@ module.exports = {
             if (err) throw err;
 
             const give = amount;
-            const lev = floor((100 + Math.sqrt((10000 + (560 * givenXP))) / 280))
+            const lev = floor((100 + Math.sqrt((10000 + (560 * (give))))) / 280)
 
-            if (!data) {
+            const Data = await levelSchema.findOne({ Guild: interaction.guild.id, User: user.id});
+
+            if (!Data) {
                 levelSchema.create({
                     Guild: guildId,
                     User: user.id,
@@ -32,10 +34,7 @@ module.exports = {
                 })
             }
 
-            const Data = await levelSchema.findOne({ Guild: interaction.guild.id, User: user.id});
-
             if (!Data) return;
-            const requiredXP = ((140 * Data.Level * Data.Level) - (100 * Data.Level)) - ((140 * (Data.Level-1) * (Data.Level-1)) - (100 * (Data.Level-1)));
             Data.XP += give;
             Data.save();
 
