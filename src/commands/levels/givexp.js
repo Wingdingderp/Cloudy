@@ -21,7 +21,7 @@ module.exports = {
             if (err) throw err;
 
             const give = amount;
-            const lev = floor((100 + Math.sqrt((10000 + (560 * (give))))) / 280)
+            const lev = floor((100 + Math.sqrt((10000 + (560 * (give))))) / 280);
 
             const Data = await levelSchema.findOne({ Guild: interaction.guild.id, User: user.id});
 
@@ -30,9 +30,9 @@ module.exports = {
                     Guild: guildId,
                     User: user.id,
                     XP: amount,
-                    Level: lev,
+                    Level: lev
                 })
-            }
+            };
 
             if (!Data) return;
             Data.XP += give;
