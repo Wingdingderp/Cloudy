@@ -35,8 +35,6 @@ module.exports = {
             const Data = await levelSchema.findOne({ Guild: interaction.guild.id, User: user.id});
 
             if (!Data) return;
-             const requiredXP = Data.Level * Data.Level * 20 + 20;
-
             const requiredXP = ((140 * Data.Level * Data.Level) - (100 * Data.Level)) - ((140 * (Data.Level-1) * (Data.Level-1)) - (100 * (Data.Level-1)));
             Data.XP += give;
             Data.save();
