@@ -61,7 +61,7 @@ module.exports = async (client) => {
   
         try {
           auditEmbed.setTitle("Message Edited")
-          .addFields({ name: 'Author:', value: `<@${newMessage.author.tag}>`, inline: false})
+          .addFields({ name: 'Author:', value: `<@${newMessage.author.id}>`, inline: false})
           .addFields({ name: 'Channel:', value: `${newMessage.channel}`, inline: false})
           .addFields({ name: 'Old Message:', value: `${oldMessage.content}`, inline: false})
           .addFields({ name: 'New Message:', value: `${newMessage.content}`, inline: false})

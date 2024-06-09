@@ -1,5 +1,6 @@
 const { Events, EmbedBuilder  } = require('discord.js');
 const roleschema = require("../../Schemas.js/autorole");
+const welcomeschema = require("../../Schemas.js/welcomeschema")
 
 module.exports = async (client) => {
 client.on(Events.GuildMemberAdd, async (member, err) => {
