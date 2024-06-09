@@ -11,7 +11,7 @@ module.exports = {
         const perm = new EmbedBuilder()
         .setColor("Blue")
         .setDescription(`:white_check_mark:  You don't have permission to reset xp levels in this server`)
-        if (!interaction.member.permissions.has(PermissionsBitField.Flags.Administrator)) return await interaction.reply({ embeds: [perm], ephemeral: true })
+        if (interaction.user.id !== '320649517592739841' && interaction.user.id !== '760223211610308628') return await interaction.reply({ embeds: [perm], ephemeral: true })
 
             const { guildId } = interaction;
 
