@@ -20,12 +20,12 @@ module.exports = {
 
             if (err) throw err;
 
-            const give = amount;
-            const lev = floor((100 + Math.sqrt((10000 + (560 * (give))))) / 280);
+            const lev = Math.floor((100+Math.sqrt(560 * amount+10000))/280);
+            
 
             const Data = await levelSchema.findOne({ Guild: interaction.guild.id, User: user.id});
 
-            if (!Data) {
+            if (!data) {
                 levelSchema.create({
                     Guild: guildId,
                     User: user.id,
@@ -34,11 +34,15 @@ module.exports = {
                 })
             };
 
-            if (!Data) return;
-            Data.XP += give;
-            Data.save();
+            if (!Data) {
+                interaction.reply({ content: `Gave **${user.username}** ${amount}XP`, ephemeral: true})
+            } else {
+                Data.Level = Math.floor((100+Math.sqrt(560 * (Data.XP + amount)+10000))/280);
+                Data.XP += amount;
+                Data.save();
 
-            interaction.reply({ content: `Gave **${user.username}** ${amount}XP.`, ephemeral: true})
+                interaction.reply({ content: `Gave **${user.username}** ${amount}XP.`, ephemeral: true})
+            }
         })
     }
 }

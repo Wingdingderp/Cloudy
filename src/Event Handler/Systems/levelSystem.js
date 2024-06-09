@@ -28,7 +28,7 @@ client.on(Events.MessageCreate, async (message) => { // Make sure to define Even
 	const channel = await guild.channels.cache.get(channelID);
     const give = 20;
 
-    const requiredXP = ((140 * data.Level * data.Level) - (100 * data.Level)) - ((140 * (data.Level-1) * (data.Level-1)) - (100 * (data.Level-1)));
+    const requiredXP = ((140 * (data.Level + 1) * (data.Level + 1)) - (100 * (data.Level + 1))) - ((140 * data.Level * data.Level) - (100 * data.Level));
 
     if (data.XP + give >= requiredXP) {
         data.XP += give;

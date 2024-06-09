@@ -28,16 +28,23 @@ module.exports = {
 
         await interaction.deferReply();
 
-        const Required = ((140 * Data.Level * Data.Level) - (100 * Data.Level)) - ((140 * (Data.Level-1) * (Data.Level-1)) - (100 * (Data.Level-1)));
+        const Required = ((140 * (Data.Level + 1) * (Data.Level + 1)) - (100 * (Data.Level + 1))) - ((140 * Data.Level * Data.Level) - (100 * Data.Level));
+        const Progress = Data.XP - ((140 * Data.Level * Data.Level) - (100 * Data.Level));
+        
+        const Sorted = await levelSchema.find({ Guild: guild.id})
+            .sort({
+                XP: -1,
+                Level: -1
+            })
 
         Font.loadDefault(20);
 
         const rank = new RankCardBuilder()
         .setAvatar(member.displayAvatarURL({ forseStatic: true}))
         .setBackground('https://cdn.discordapp.com/attachments/1209222106278006787/1244360887016620122/Welcome.jpg?ex=6654d4e2&is=66538362&hm=816c5f4138dd70603f34fb1fb7203c1e029b9912b2efc8a0ea4d24ab99c0fdea&')
-        .setCurrentXP(Data.XP)
+        .setCurrentXP(Progress)
         .setRequiredXP(Required)
-        .setRank(1, "Rank", false)
+        .setRank(findRank(Sorted, member), "Rank", false)
         .setLevel(Data.Level, "Level")
         .setDisplayName(interaction.guild.name)
         .setUsername(fullMention)
@@ -53,4 +60,17 @@ module.exports = {
 
         await interaction.editReply({ embeds: [embed2], files: [attachment] })
     }
+}
+
+function findRank(sorted, member) {
+    let rankNumber = 0;
+    for (let counter = 0; counter < sorted.length; ++counter) {
+        let { User, XP, Level } = sorted[counter];
+        const testIfMember = User;
+        console.log(`${testIfMember}, ${member}`)
+        rankNumber = rankNumber + 1
+        if (testIfMember == member) {
+            return rankNumber;
+        };
+    };
 }
