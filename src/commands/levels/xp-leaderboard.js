@@ -21,7 +21,7 @@ module.exports = {
                 XP: -1,
                 Level: -1
             })
-            .limit(10)
+            .limit(50)
 
         if (!Data) return await interaction.reply({ embeds: [embed1] });
 
