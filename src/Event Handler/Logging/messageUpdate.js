@@ -19,7 +19,7 @@ module.exports = async (client) => {
           return;
         }
 
-        const ignoreChannels = ['1198787608503918684'];
+        const ignoreChannels = ['1198787608503918684', '1250068736669646898'];
         if (ignoreChannels.includes(oldMessage.channel.id)) return;
 
         const auditEmbed = new EmbedBuilder().setColor( 'Blue').setTimestamp().setFooter({ text: "Logging System"}).setThumbnail("https://maki.gg/emoji/pencil.png")

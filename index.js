@@ -28,16 +28,15 @@ for (const folder of commandFolders) {
 
 const eventsPath = path.join(__dirname, 'src/events');
 const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+const functions = fs.readdirSync("./src/functions").filter(file => file.endsWith(".js"));
 
-for (const file of eventFiles) {
-	const filePath = path.join(eventsPath, file);
-	const event = require(filePath);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args));
-	}
-}
+(async () => {
+    for (file of functions) {
+        require(`./src/functions/${file}`)(client);
+    }
+    client.handleEvents(eventFiles, "./src/events");
+    client.handleCommands(commandFolders, "./src/commands");
+})();
 
 var eCount = 0;
 var getEventsStatus = false;
@@ -68,15 +67,7 @@ process.on('unhandledRejection', (reason, promise) => {
 	console.error("Uncaught Exception Monitor:", err, "Origin:", origin);
 	// Optionally use functionsExt.generateError if it logs the details as desired
 	functionsExt.generateError("Uncaught Exception Monitor", err.stack ? err + '\n' + err.stack : err, origin);
-
-	(async () => {
-		for (file of functions) {
-			require(`./functions/${file}`)(client);
-		}
-		client.handleEvents(eventFiles, "./src/events");
-		client.handleCommands(commandFolders, "./src/commands");
-	})();
-  });
+});
   
 // Log in to Discord with your client's token
 client.login(process.env.DISCORD_TOKEN);
