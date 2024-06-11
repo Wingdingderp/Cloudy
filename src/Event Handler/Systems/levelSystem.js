@@ -24,7 +24,7 @@ client.on(Events.MessageCreate, async (message) => { // Make sure to define Even
         });
     }
 
-	const channelID = process.env.LEVEL_UP;
+	const channelID = process.env.DISCORD_LEVEL_UP;
 	const channel = await guild.channels.cache.get(channelID);
     const give = 20;
 
