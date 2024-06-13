@@ -19,7 +19,7 @@ module.exports = {
         console.log(embed)
         await interaction.reply({
             embeds: [embed],
-            content:`Do /kiss to kiss someone! ${invis_ping_prefix}<@${kissed}>`
+            content:`Do **/kiss** to kiss someone! ${invis_ping_prefix}<@${kissed}>`
         })
     }
 }
