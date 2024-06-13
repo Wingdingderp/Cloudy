@@ -19,7 +19,7 @@ module.exports = {
         console.log(embed)
         await interaction.reply({
             embeds: [embed],
-            content:`${invis_ping_prefix}<@${hugged}>`
+            content:`Do /hug to hug someone! ${invis_ping_prefix}<@${hugged}>`
         })
     }
 }

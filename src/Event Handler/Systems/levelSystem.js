@@ -4,7 +4,9 @@ const levelRoles = {
 	5: process.env.DISCORD_LEVEL_5,
     10: process.env.DISCORD_LEVEL_10,
     15: process.env.DISCORD_LEVEL_15,
-    20: process.env.DISCORD_LEVEL_20
+    20: process.env.DISCORD_LEVEL_20,
+    25: process.env.DISCORD_LEVEL_25,
+    30: process.env.DISCORD_LEVEL_30,
 }; 
 
 module.exports = async (client) => {
@@ -37,9 +39,12 @@ client.on(Events.MessageCreate, async (message) => { // Make sure to define Even
 
       // Addon:
         for (const [level, roleId] of Object.entries(levelRoles)) {
+            const role = guild.roles.cache.get(roleId);
             if (data.Level >= parseInt(level) && !member.roles.cache.has(roleId)) {
-                const role = guild.roles.cache.get(roleId);
                 if (role) await member.roles.add(role);
+            }
+            if ((data.Level - 5) >= parseInt(level)) { // Only works if the gap between level roles is exactly 5, aka if gap is ever increased we need a new fix
+                if (role) await member.roles.remove(role);
             }
         }
      
@@ -52,7 +57,7 @@ client.on(Events.MessageCreate, async (message) => { // Make sure to define Even
         embed.setDescription(`${author} has leveled up to **Level ${data.Level}**!`);
 
         const invis_ping_prefix = "||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|| _ _ _ _ _ _"
-        channel.send({ embeds: [embed], content: `${invis_ping_prefix}${author}` });
+        channel.send({ embeds: [embed], content: `Do /rank and /leaderboard to know more! ${invis_ping_prefix}${author}` });
     } else {
         data.XP += give;
         await data.save();
