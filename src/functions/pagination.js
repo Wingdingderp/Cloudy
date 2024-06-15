@@ -45,12 +45,12 @@ module.exports = async (interaction, pages, time = 30 * 1000) => {
         
         const msg = await interaction.editReply({ embeds: [pages[index]], components: [buttons], fetchReply: true });
 
-        const collecter = await msg.createMessageComponentCollector({
+        const collector = await msg.createMessageComponentCollector({
             ComponentType: ComponentType.Button,
             time
         });
 
-        collecter.on('collect', async i => {
+        collector.on('collect', async i => {
             if (i.user.id !== interaction.user.id) return await i.reply({ content: `Only **${interaction.user.username}** can use these buttons!`, ephemeral: true });
 
             await i.deferUpdate();
@@ -91,11 +91,11 @@ module.exports = async (interaction, pages, time = 30 * 1000) => {
 
             await msg.edit({ embeds: [pages[index]], components: [buttons] }).catch(err => {});
 
-            collecter.resetTimer();
+            collector.resetTimer();
         });
 
-        collecter.on('end', async => {
-            msg.edit({ embeds: [pages[index]], components: []}).catch(err => {});
+        collector.on('end', async () => {
+            await msg.edit({ embeds: [pages[index]], components: []}).catch(err => {});
         });
 
         return msg;
