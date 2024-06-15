@@ -26,6 +26,7 @@ module.exports = {
         var pageLength = 2;
         var embeds = [];
         var Dataset = [];
+        var rankCounter = 0;
 
         for (let user of Data) {
             const embed = new EmbedBuilder().setTitle(`**${guild.name}'s XP Leaderboard:**`).setColor("Blue")
@@ -37,10 +38,11 @@ module.exports = {
                     
                     const value = await client.users.fetch(User) || "Unknown Member"
                     const member = value.tag;
-                    embed.addFields({name: `**${counter + 1}. ${member}**`, value: `Level: ${Level}\nXP: ${XP}`}).setColor("Blue");
+                    embed.addFields({name: `**${rankCounter + 1}. ${member}**`, value: `Level: ${Level}\nXP: ${XP}`}).setColor("Blue");
                     if (counter === (pageLength - 1)) {
                         Dataset = [user];
                     };
+                    rankCounter = rankCounter + 1;
                 };
                 embeds = embeds.concat([embed]);
             };
