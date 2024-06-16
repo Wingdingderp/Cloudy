@@ -20,7 +20,7 @@ module.exports = {
 
         if (lastUser === message.author.id) {
             const soloCountEmbed = new EmbedBuilder()
-        .setTitle('Wrong Number')
+        .setTitle('You cannot count solo!')
         .setDescription(`You cannot count on your own!`)
         .setColor('Red')
         .setTimestamp()
