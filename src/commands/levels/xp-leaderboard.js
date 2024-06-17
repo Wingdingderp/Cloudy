@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require(`@discordjs/builders`);
-const { EmbedBuilder, AttachmentBuilder, PermissionsBitField, Embed } = require(`discord.js`);
+const { EmbedBuilder, AttachmentBuilder } = require(`discord.js`);
 const levelSchema = require('../../Schemas.js/level');
-const pagination = require('../../functions/pagination');
+const { Font, LeaderboardBuilder } = require("canvacord");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -14,41 +14,61 @@ module.exports = {
         const embed1 = new EmbedBuilder()
         .setColor("Blue")
         .setDescription(`:white_check_mark:  No one is on the leaderboard yet..`)
-        
-        let Data = await levelSchema.find({ Guild: guild.id})
-            .sort({
-                XP: -1,
-                Level: -1
-            })
-            .limit(100)
-        console.log(Data)
 
-        var pageLength = 2;
-        var embeds = [];
-        var Dataset = [];
-        var rankCounter = 0;
+        Font.loadDefault(20);
 
-        for (let user of Data) {
-            const embed = new EmbedBuilder().setTitle(`**${guild.name}'s XP Leaderboard:**`).setColor("Blue")
-            if (Dataset.length < pageLength) {
-                Dataset = Dataset.concat([user])
-            } else if (Dataset.length === pageLength) {
-                for (let counter = 0; counter < pageLength; ++counter) {
-                    let { User, XP, Level } = Dataset[counter];
-                    
-                    const value = await client.users.fetch(User) || "Unknown Member"
-                    const member = value.tag;
-                    embed.addFields({name: `**${rankCounter + 1}. ${member}**`, value: `Level: ${Level}\nXP: ${XP}`}).setColor("Blue");
-                    if (counter === (pageLength - 1)) {
-                        Dataset = [user];
-                    };
-                    rankCounter = rankCounter + 1;
-                };
-                embeds = embeds.concat([embed]);
-            };
-        };
+ // Fetch all users from the database
+ let UserI = await levelSchema.find({ Guild: guild.id})
+ let ususs = UserI.sort((a, b) => {
+     if (b.Level !== a.Level) {
+         return b.Level - a.Level; // First, sort by level
+     } else {
+         return b.XP - a.XP; // If levels are the same, sort by XP
+     }
+ })
+ .slice(0, 10); // Keep only the top 10 users
+ const name = `${interaction.guild.name}'s Leaderboard`;
+ const leaderboardEntries = [];
+ let rankNum = 1;
 
-        if (!Data) return await interaction.reply({ embeds: [embed1] });
-        await pagination(interaction, embeds);
+ console.log(ususs.userI)
+ // Build leaderboard entries
+ for (const members of ususs) {
+     const member = await client.users.fetch(members.User);
+     const avatar = member.displayAvatarURL({ extension: "png", forceStatic: true });
+     const username = member.tag;
+     const displayName = member.displayName;
+     const level = members.Level;
+     const xp = members.XP;
+     const rank = rankNum;
+
+     leaderboardEntries.push({ avatar, username, displayName, level, xp, rank });
+     rankNum++;
+ }
+ console.log(leaderboardEntries)
+
+ const totalMembers = interaction.guild.memberCount
+  Font.loadDefault();
+ const leaderboard = new LeaderboardBuilder()
+ .setBackground("https://cdn.discordapp.com/attachments/1251654427107135621/1252258635929620520/Untitled26_20240617104837.png?ex=6671903c&is=66703ebc&hm=d394adb34545234a2ca70178775bde2ada76aa225a58bfa6ea2cc34dccb319ac&")
+     .setHeader({
+     title: name,
+     image: interaction.guild.iconURL({ extension: "png", forceStatic: true }),
+     subtitle: `${totalMembers} members`,
+     })
+     .setPlayers(leaderboardEntries);
+const leaderboardBuffer = await leaderboard.build({ format: "png" });
+
+      // changing variant
+      leaderboard.setVariant("horizontal");
+
+        const attachment = new AttachmentBuilder(leaderboardBuffer, { name: "leaderboard.png"});
+
+        const embed = new EmbedBuilder()
+        .setColor("Blue")
+        .setTitle(`XP Leaderboard`)
+        .setImage("attachment://leaderboard.png")
+
+        await interaction.reply({ embeds: [embed], files: [attachment] })
     }
 }
