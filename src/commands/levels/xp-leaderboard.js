@@ -11,11 +11,15 @@ module.exports = {
 
         const { guild, client } = interaction;
 
-        const embed1 = new EmbedBuilder()
-        .setColor("Blue")
-        .setDescription(`:white_check_mark:  No one is on the leaderboard yet..`)
+        Data = await levelSchema.find({ Guild: guild.id })
 
-        Font.loadDefault(20);
+        if (!Data) {
+        const embed = new EmbedBuilder()
+        .setColor("Blue")
+        .setDescription(`⚠️ No one is on the leaderboard yet..`)
+
+        interaction.reply({embeds: [embed] })
+        }
 
  // Fetch all users from the database
  let UserI = await levelSchema.find({ Guild: guild.id})
@@ -31,7 +35,6 @@ module.exports = {
  const leaderboardEntries = [];
  let rankNum = 1;
 
- console.log(ususs.userI)
  // Build leaderboard entries
  for (const members of ususs) {
      const member = await client.users.fetch(members.User);
@@ -45,7 +48,6 @@ module.exports = {
      leaderboardEntries.push({ avatar, username, displayName, level, xp, rank });
      rankNum++;
  }
- console.log(leaderboardEntries)
 
  const totalMembers = interaction.guild.memberCount
   Font.loadDefault();
@@ -56,19 +58,16 @@ module.exports = {
      image: interaction.guild.iconURL({ extension: "png", forceStatic: true }),
      subtitle: `${totalMembers} members`,
      })
-     .setPlayers(leaderboardEntries);
+     .setPlayers(leaderboardEntries)
+     .setVariant("horizontal");
 const leaderboardBuffer = await leaderboard.build({ format: "png" });
-
-      // changing variant
-      leaderboard.setVariant("horizontal");
 
         const attachment = new AttachmentBuilder(leaderboardBuffer, { name: "leaderboard.png"});
 
-        const embed = new EmbedBuilder()
+        const lbembed = new EmbedBuilder()
         .setColor("Blue")
-        .setTitle(`XP Leaderboard`)
+        .setTitle('XP Leaderboard')
         .setImage("attachment://leaderboard.png")
-
-        await interaction.reply({ embeds: [embed], files: [attachment] })
+        await interaction.reply({ embeds: [lbembed], files: [attachment] })
     }
 }
