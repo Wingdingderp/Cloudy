@@ -4,7 +4,6 @@ const fs = require('fs');
 const env = require('dotenv').config()
 
 const clientId = process.env.DISCORD_CLIENT_ID;
-const guildId = process.env.DISCORD_GUILD_ID;
 
 module.exports = (client) => {
     client.handleCommands = async (commandFolders, path) => {
