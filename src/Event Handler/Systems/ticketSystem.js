@@ -39,10 +39,9 @@ client.on(Events.InteractionCreate, async interaction => {
 	  }
 	  nextID = id + 1;
 
-		  const newChannel = await interaction.guild.channels.create({
+		  const newThread = await interaction.channel.threads.create({
 			name: `${nextID.toString().padStart(4, '0')}-${interaction.user.tag}`,
-			type: ChannelType.GuildText,
-			parent: ticketcategory,
+			type: ChannelType.PrivateThread,
 			permissionOverwrites: [
 				{
 					id: interaction.guild.id,
@@ -72,7 +71,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
 			const embed = new EmbedBuilder()
 			.setTitle('Ticket')
-			.setDescription(`Your ticket was just opened and can be found here: ${newChannel}.`)
+			.setDescription(`Your ticket was just opened and can be found here: ${newThread}.`)
 			.setTimestamp()
 			.setColor('Blue')
 			await interaction.reply({ embeds: [embed], ephemeral: true })
@@ -103,7 +102,7 @@ client.on(Events.InteractionCreate, async interaction => {
 			.setDescription(`Hey ${newChannelcreator}! One of our staff members will get back to you sometime soon. Please take into consideration that mentioning people **IS NOT** allowed and might result into your ticket getting closed.\n\n**Reason for Contact**: ${q1}`)
 			.setTimestamp()
 			.setColor('Blue')
-			await newChannel.send({content: `||<@here>||`, embeds: [embed2], components: [row] })
+			await newThread.send({content: `||<here>||`, embeds: [embed2], components: [row] })
 		    })
     }
 })

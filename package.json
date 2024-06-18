@@ -30,7 +30,7 @@
   "main": "./index.js",
   "scripts": {
     "test": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "node ./deploy-commands.js & nodemon index.js"
   },
   "keywords": [],
   "author": "Wingdingderp, GeneralKeno",
