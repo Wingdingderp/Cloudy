@@ -102,7 +102,7 @@ client.on(Events.InteractionCreate, async interaction => {
 			.setDescription(`Hey ${newChannelcreator}! One of our staff members will get back to you sometime soon. Please take into consideration that mentioning people **IS NOT** allowed and might result into your ticket getting closed.\n\n**Reason for Contact**: ${q1}`)
 			.setTimestamp()
 			.setColor('Blue')
-			await newThread.send({content: `||<here>||`, embeds: [embed2], components: [row] })
+			await newThread.send({content: `||<@here>||`, embeds: [embed2], components: [row] })
 		    })
     }
 })
