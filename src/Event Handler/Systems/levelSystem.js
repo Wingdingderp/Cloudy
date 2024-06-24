@@ -7,6 +7,7 @@ const levelRoles = {
     20: process.env.DISCORD_LEVEL_20,
     25: process.env.DISCORD_LEVEL_25,
     30: process.env.DISCORD_LEVEL_30,
+    35: process.env.DISCORD_LEVEL_35,
 }; 
 
 module.exports = async (client) => {

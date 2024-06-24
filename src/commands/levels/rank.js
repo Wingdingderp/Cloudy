@@ -41,7 +41,7 @@ module.exports = {
 
         const rank = new RankCardBuilder()
         .setAvatar(member.displayAvatarURL({ forseStatic: true}))
-        .setBackground('https://cdn.discordapp.com/attachments/1251654427107135621/1252258635929620520/Untitled26_20240617104837.png?ex=6671903c&is=66703ebc&hm=d394adb34545234a2ca70178775bde2ada76aa225a58bfa6ea2cc34dccb319ac&')
+        .setBackground(`src/utils/xp-background.jpg`)
         .setCurrentXP(Progress)
         .setRequiredXP(Required)
         .setRank(findRank(Sorted, member), "Rank", false)
