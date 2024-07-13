@@ -10,12 +10,14 @@ const levelRoles = {
     35: process.env.DISCORD_LEVEL_35,
     40: process.env.DISCORD_LEVEL_40
 }; 
+const ignoreChannels = ['1153803743247216741']; // 1153803743247216741 is safe cloud's spam channel
 
 module.exports = async (client) => {
 client.on(Events.MessageCreate, async (message) => { // Make sure to define Events at the top.
     const { guild, author, member } = message;
 
     if (!guild || author.bot) return;
+    if (ignoreChannels.includes(`${message.channel.id}`)) return;
 
     let data = await level.findOne({ Guild: guild.id, User: author.id }).exec();
 
