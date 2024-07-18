@@ -8,6 +8,7 @@ let schema = new Schema({
     memberLog: String,
     roleLog: String,
     serverLog: String,
+    inviteLog: String,
 });
 
 module.exports = model("audit_log", schema);

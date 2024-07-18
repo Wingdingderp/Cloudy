@@ -14,7 +14,7 @@ module.exports = async (client) => {
         })
         let logID;
         if (data) {
-            logID = data.moderationLog
+            logID = data.inviteLog
         } else {
             return;
         }

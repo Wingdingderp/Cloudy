@@ -10,7 +10,8 @@ module.exports = {
     .addChannelOption(option => option.setName("moderation-log").setDescription("The channel for the Moderation Log").setRequired(true))
     .addChannelOption(option => option.setName("member-log").setDescription("The channel for the Member Log").setRequired(true))
     .addChannelOption(option => option.setName("role-log").setDescription("The channel for the Role Log").setRequired(true))
-    .addChannelOption(option => option.setName("server-log").setDescription("The channel for the Server Log").setRequired(true)),
+    .addChannelOption(option => option.setName("server-log").setDescription("The channel for the Server Log").setRequired(true))
+    .addChannelOption(option => option.setName("invite-log").setDescription("The channel for the Invite Log").setRequired(true)),
 
     async execute (interaction) {
         const {options, guild} = interaction;
@@ -20,6 +21,7 @@ module.exports = {
         const mbrLog = options.getChannel("member-log");
         const roleLog = options.getChannel("role-log");
         const serverLog = options.getChannel("server-log");
+        const invLog = options.getChannel("invite-log");
 
         const data = await Schema.findOne({
             Guild: guild.id,
@@ -41,6 +43,7 @@ module.exports = {
             memberLog: mbrLog.id,
             roleLog: roleLog.id,
             serverLog: serverLog.id,
+            inviteLog: invLog.id
         });
 
         return await interaction.reply({
