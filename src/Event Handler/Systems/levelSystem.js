@@ -11,12 +11,25 @@ const levelRoles = {
     40: process.env.DISCORD_LEVEL_40
 }; 
 const ignoreChannels = ['1153803743247216741']; // 1153803743247216741 is safe cloud's spam channel
+const cooldowns = new Map();
 
 module.exports = async (client) => {
 client.on(Events.MessageCreate, async (message) => { // Make sure to define Events at the top.
     const { guild, author, member } = message;
 
     if (!guild || author.bot) return;
+
+    const userId = author.id;
+    const now = Date.now();
+    const cooldownTime = 60000; // 1 min
+
+    if (cooldowns.has(userId)) {
+        const expirationTime = cooldowns.get(userId) + cooldownTime;
+        if (now < expirationTime) {
+            return; // User is still on cooldown
+        }
+    }
+
     if (ignoreChannels.includes(`${message.channel.id}`)) return;
 
     let data = await level.findOne({ Guild: guild.id, User: author.id }).exec();
@@ -66,5 +79,7 @@ client.on(Events.MessageCreate, async (message) => { // Make sure to define Even
         data.XP += give;
         await data.save();
         }
+
+        cooldowns.set(userId, now); // Update the cooldown for the user
     });
-}
+};
