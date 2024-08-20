@@ -24,8 +24,8 @@ module.exports = async (client) => {
             const logID = data.messageLog;   
             const auditChannel = client.channels.cache.get(logID);
             const countingData = await countingSchema.findOne({ Guild: message.guild.id });
-            const countingChannel = client.channels.cache.get('1275225559273570354')
-            const iscountingChannel = [`1275225559273570354`];
+            const countingChannel = client.channels.cache.get('1178564984880513094') //Safe Cloud's Counting Channel
+            const iscountingChannel = [`1178564984880513094`]; //Safe Cloud's Counting Channel
             const number = countingData.Count
             const nextNumber = number + 1
             const countingMsg = codeBlock(message.content)
