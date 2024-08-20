@@ -1,5 +1,6 @@
-const { EmbedBuilder, Events, AuditLogEvent } = require('discord.js');
+const { EmbedBuilder, Events, AuditLogEvent, codeBlock } = require('discord.js');
 const Audit_Log = require("../../Schemas.js/auditlog");
+const countingSchema = require('../../Schemas.js/countingSchema');
 const Client = require("discord.js");
 const log_actions = require("../../Schemas.js/logactions");
 const token = require("../../../encrypt").token(5);
@@ -20,13 +21,24 @@ module.exports = async (client) => {
 
             if (!data) return; 
 
-            const logID = data.messageLog;
+            const logID = data.messageLog;   
             const auditChannel = client.channels.cache.get(logID);
+            const countingData = await countingSchema.findOne({ Guild: message.guild.id });
+            const countingChannel = client.channels.cache.get('1275225559273570354')
+            const iscountingChannel = [`1275225559273570354`];
+            const number = countingData.Count
+            const nextNumber = number + 1
+            const countingMsg = codeBlock(message.content)
 
             if (!auditChannel) {
                 console.error("Audit channel not found.");
                 return;
             }
+
+            if (iscountingChannel.includes(`${message.channel.id}`)) {
+                await countingChannel.send({ content: `⚠️ ${message.author} has deleted a message: ${countingMsg} The next number is **${nextNumber}**`})
+                return;
+            } 
 
             const auditEmbed = new EmbedBuilder()
             .setColor('Red')
@@ -53,6 +65,7 @@ module.exports = async (client) => {
 
             auditEmbed
             .setTitle("Message Deleted")
+            .addFields({name: "Channel", value: `${message.channel}`, infline: false})
             .addFields({name: "Author:", value: `<@${message.author.id}>`, inline: false})
             .addFields({name: "Message ID", value: `${message.id}`, inline: true})
 
