@@ -37,6 +37,10 @@ module.exports = async (client) => {
 
             if (iscountingChannel.includes(`${message.channel.id}`)) {
                 await countingChannel.send({ content: `⚠️ ${message.author} has deleted a message: ${countingMsg} The next number is **${nextNumber}**`})
+
+                countingData.count = number
+                countingData.LastUser = null;
+                await countingData.save();
                 return;
             } 
 

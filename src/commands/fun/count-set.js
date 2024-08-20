@@ -27,7 +27,7 @@ module.exports = {
     .setFooter({ text: 'Counting System' })
     .setColor('Blue');
 
-    await interaction.channel.send({ embeds: [embed] });
+    await interaction.reply({ embeds: [embed] });
 
     countingData.Count = number;
     countingData.LastUser = null;
