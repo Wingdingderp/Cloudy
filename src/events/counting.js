@@ -11,7 +11,6 @@ module.exports = {
 
         if (message.channel.id !== countingData.Channel) return;
 
-
         const input = message.content;
 
         const number = parseInt(input.split(" ", 1)[0]);
@@ -19,11 +18,6 @@ module.exports = {
         const words = input.substring(input.indexOf(" " + 1));
 
         if (isNaN(number)) return;
-
-        console.log(input)
-        console.log(number)
-        console.log(words)
-
 
         const member = message.member;
         const lastUser = countingData.LastUser
