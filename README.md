@@ -5,11 +5,11 @@ The Cloudy Discord Bot for the SafeCloud Discord Server!
 TODO:
 
 * [x] Auto roles
-* [ ] Invite tracker (User Join, User Leave)
+* [x] Invite tracker (User Join, User Leave)
 * [x] Level system
-* [ ] Logs
+* [x] Logs
 * [x] Moderation commands (Ex. Purge)
-* [ ] Send message in channels
+* [x] Send message in channels
 * [ ] Timed messages
 * [x] Welcome message
 
